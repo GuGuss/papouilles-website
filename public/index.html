@@ -715,7 +715,7 @@
       "VERSION:2.0",
       "PRODID:-//Papouilles//Release//FR",
       "BEGIN:VEVENT",
-      "UID:" + crypto.randomUUID() + "@papouilles",
+      "UID:" + (crypto.randomUUID ? crypto.randomUUID() : Date.now() + "-" + Math.random().toString(16).slice(2)) + "@papouilles",
       "DTSTAMP:" + stamp,
       "DTSTART;VALUE=DATE:" + day,
       "DTEND;VALUE=DATE:" + end,
