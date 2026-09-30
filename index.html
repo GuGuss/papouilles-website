@@ -1,0 +1,746 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Papouilles — Déclarez vos cryptos, gardez vos données</title>
+<meta name="description" content="Déclarez vos cryptos, gardez vos données. Papouilles prépare votre déclaration fiscale crypto sur votre ordinateur : historique, adresses et rapport restent chez vous. Sortie le 1er janvier 2027.">
+<meta name="referrer" content="no-referrer">
+<link rel="alternate" type="application/atom+xml" title="Papouilles" href="feed.xml">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'unsafe-inline'; script-src 'unsafe-inline'; img-src data:; connect-src https:; form-action 'self' https:; base-uri 'none'">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='15' fill='%23141311'/%3E%3Cpath d='M23 30v-7a9 9 0 0 1 18 0v7' fill='none' stroke='%23F2EEE5' stroke-width='5'/%3E%3Crect x='15' y='28' width='34' height='26' rx='5' fill='%23F2EEE5'/%3E%3Ctext x='32' y='48.5' text-anchor='middle' font-family='-apple-system, 'SF Pro Display', 'Helvetica Neue', Arial, sans-serif' font-weight='800' font-size='20' fill='%23141311'%3E%E2%82%BF%3C/text%3E%3C/svg%3E">
+<style>
+  :root {
+    --paper: #F2EEE5;
+    --ink: #141311;
+    --muted: #6B665C;
+    --rule: #D5CFC2;
+    --sheet: #FBF9F4;
+    --stamp: #C4302B;
+    --ok: #2F8F5B;
+    --on-stamp: #FFFFFF;
+    --sans: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", Arial, sans-serif;
+    --display: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Helvetica Neue", Arial, sans-serif;
+    --mono: ui-monospace, "SF Mono", SFMono-Regular, Menlo, Consolas, monospace;
+    --gutter: 16px;
+    color-scheme: light;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --paper: #131210;
+      --ink: #EDE8DD;
+      --muted: #9C968A;
+      --rule: #34312B;
+      --sheet: #1C1A17;
+      --stamp: #E0544B;
+      --ok: #5CC18A;
+      --on-stamp: #131210;
+      color-scheme: dark;
+    }
+  }
+  @media (min-width: 720px) { :root { --gutter: 32px; } }
+
+  * { box-sizing: border-box; }
+  html { -webkit-text-size-adjust: 100%; }
+  body {
+    margin: 0;
+    background: var(--paper);
+    color: var(--ink);
+    font: 17px/1.55 var(--sans);
+    -webkit-font-smoothing: antialiased;
+  }
+  a { color: inherit; text-underline-offset: 3px; }
+  .wrap { max-width: 1120px; margin: 0 auto; padding: 0 var(--gutter); }
+  .mono { font-family: var(--mono); font-variant-numeric: tabular-nums; }
+  .eyebrow {
+    font: 500 12px/1.4 var(--mono);
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+  .bar {
+    display: inline-block;
+    background: var(--ink);
+    height: .72em;
+    vertical-align: baseline;
+    border-radius: 1px;
+  }
+
+  /* Header */
+  header.top { border-bottom: 1px solid var(--rule); }
+  header.top .wrap { display: flex; align-items: center; justify-content: space-between; height: 64px; gap: 16px; }
+  .logo { display: flex; align-items: center; gap: 10px; font: 700 19px/1 var(--display); letter-spacing: -.02em; text-decoration: none; }
+  .logo .mark { width: 30px; height: 30px; flex: none; }
+  .top .status { display: none; }
+  @media (min-width: 720px) { .top .status { display: inline; } }
+  .btn {
+    display: inline-flex; align-items: center; justify-content: center;
+    min-height: 44px; padding: 0 20px;
+    border: 0; border-radius: 6px;
+    background: var(--stamp); color: var(--on-stamp);
+    font: 600 16px/1 var(--sans);
+    text-decoration: none; cursor: pointer;
+  }
+  .btn:focus-visible, summary:focus-visible {
+    outline: 2px solid var(--ink); outline-offset: 2px;
+  }
+  .btn.small { min-height: 38px; padding: 0 14px; font-size: 15px; }
+
+  /* Hero */
+  .hero { padding: 56px 0 72px; }
+  .hero .wrap { display: grid; gap: 48px; }
+  @media (min-width: 960px) { .hero .wrap { grid-template-columns: .95fr 1.05fr; align-items: center; } .hero { padding: 96px 0 112px; } }
+  h1 {
+    font: 800 clamp(38px, 5.6vw, 64px)/1.03 var(--display);
+    letter-spacing: -.035em;
+    margin: 16px 0 24px;
+  }
+  h1 .strike { position: relative; white-space: nowrap; }
+  .lede { font-size: 20px; line-height: 1.5; max-width: 34em; margin: 0 0 32px; }
+  .lede + .lede { margin-top: -16px; }
+  .lede .accent { color: var(--stamp); }
+
+  /* The form card */
+  .sheet {
+    position: relative;
+    background: var(--sheet);
+    border: 1px solid var(--rule);
+    border-radius: 4px;
+    padding: 24px;
+    box-shadow: 0 1px 0 var(--rule), 0 24px 48px -32px rgba(0,0,0,.35);
+  }
+  .sheet-head { display: flex; justify-content: space-between; gap: 12px; border-bottom: 2px solid var(--ink); padding-bottom: 12px; margin-bottom: 4px; }
+  .sheet-head strong { font: 700 15px/1.3 var(--display); }
+  .trust-title { display: block; font: 700 17px/1.3 var(--display); letter-spacing: -.01em; padding-right: 110px; }
+  .trust-title span { font-weight: 400; color: var(--muted); font-size: 14px; }
+  .trust { width: 100%; border-collapse: collapse; }
+  .trust th, .trust td { padding: 14px 0; border-bottom: 1px solid var(--rule); text-align: left; vertical-align: baseline; white-space: nowrap; }
+  .trust thead th { padding: 12px 0 10px; font: 600 11px/1.3 var(--mono); letter-spacing: .07em; text-transform: uppercase; border-bottom: 2px solid var(--ink); }
+  .trust thead th:nth-child(2) { color: var(--stamp); }
+  .trust thead th:nth-child(3) { color: var(--ok); }
+  .trust tbody th { padding-right: 14px; font: 500 13px/1.4 var(--sans); color: var(--muted); }
+  .trust td { padding-left: 14px; font: 600 15px/1.35 var(--sans); }
+  .trust thead th + th { padding-left: 14px; }
+  .trust td::before { margin-right: 6px; font: 800 13px/1 var(--mono); }
+  .trust td.them { color: var(--stamp); }
+  .trust td.them::before { content: "✕"; }
+  .trust td.us { color: var(--ok); }
+  .trust td.us::before { content: "✓"; }
+  .trust tbody tr:last-child th, .trust tbody tr:last-child td { border-bottom: 0; }
+  @media (max-width: 560px) {
+    .sheet { padding: 20px 16px; }
+    .trust-title { padding-right: 0; margin-top: 12px; }
+    .trust thead { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
+    .trust tr { display: grid; gap: 4px; padding: 12px 0; border-bottom: 1px solid var(--rule); }
+    .trust tbody tr:last-child { border-bottom: 0; }
+    .trust th, .trust td { padding: 0; border: 0; }
+  }
+  .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+  .stamp {
+    position: absolute; right: 18px; top: -18px;
+    transform: rotate(4deg);
+    border: 2px solid var(--stamp); color: var(--stamp);
+    background: var(--sheet);
+    padding: 6px 10px; border-radius: 4px;
+    font: 800 12px/1.2 var(--mono); letter-spacing: .08em; text-transform: uppercase;
+  }
+
+  /* Statement band */
+  .statement { padding: 48px 0; background: var(--ink); color: var(--paper); }
+  .statement p { margin: 0; max-width: 22em; font: 800 clamp(28px, 4.2vw, 46px)/1.12 var(--display); letter-spacing: -.03em; }
+  .statement span { color: var(--ok); }
+  .statement + section { border-top: 0; }
+
+  /* Sections */
+  section { padding: 72px 0; border-top: 1px solid var(--rule); }
+  @media (min-width: 960px) { section { padding: 104px 0; } }
+  h2 { font: 800 clamp(30px, 4.4vw, 48px)/1.08 var(--display); letter-spacing: -.03em; margin: 12px 0 20px; max-width: 18em; }
+  h3 { font: 700 19px/1.3 var(--display); margin: 0 0 8px; letter-spacing: -.01em; }
+  .intro { font-size: 19px; max-width: 38em; margin: 0 0 40px; color: var(--ink); }
+  .muted { color: var(--muted); }
+
+  /* Them and us */
+  .versus { display: grid; gap: 20px; margin: 8px 0 72px; }
+  @media (min-width: 960px) { .versus { grid-template-columns: 1fr 1fr; align-items: stretch; } }
+  .db { position: relative; margin: 0; border-radius: 8px; overflow: hidden; container-type: inline-size; font: 13px/1.2 var(--mono); font-variant-numeric: tabular-nums; display: flex; flex-direction: column; }
+  .db-them { --db-bg: #0F0E0C; --db-fg: #E6E1D5; --db-red: #E0544B; background: var(--db-bg); color: var(--db-fg); }
+  .db-us { --ok: #2F8F5B; background: var(--sheet); color: var(--ink); border: 1px solid var(--rule); }
+  @media (prefers-color-scheme: dark) { .db-us { --ok: #5CC18A; } }
+  .db-top, .db-caption { display: flex; justify-content: space-between; gap: 12px; padding: 14px 16px; font-size: 11px; letter-spacing: .07em; text-transform: uppercase; }
+  .db-top { font-weight: 700; border-bottom: 1px solid color-mix(in srgb, currentColor 18%, transparent); }
+  .db-caption { padding-bottom: 10px; opacity: .8; }
+  .db-sent, .db-count { font-weight: 700; white-space: nowrap; }
+  .db-them .db-sent, .db-them .db-count { color: var(--db-red); }
+  .db-us .db-sent, .db-us .db-count { color: var(--ok); }
+
+  /* The data lane: computer, wire, server */
+  .lane { display: flex; align-items: center; gap: 10px; padding: 22px 16px; border-bottom: 1px solid color-mix(in srgb, currentColor 18%, transparent); min-height: 150px; }
+  .node { flex: none; display: grid; justify-items: center; gap: 6px; width: 76px; text-align: center; font-size: 10px; letter-spacing: .05em; text-transform: uppercase; }
+  .node-srv { color: var(--db-red, currentColor); }
+  .node-ghost { color: var(--muted); }
+  .wire { position: relative; flex: 1; height: 0; border-top: 2px dashed color-mix(in srgb, currentColor 35%, transparent); min-width: 96px; }
+  .pkt { position: absolute; top: 0; left: 0; padding: 4px 7px; border-radius: 3px; background: var(--db-red); color: #fff; font-size: 11px; font-weight: 700; white-space: nowrap; opacity: 0; animation: pkt-send 7.2s linear infinite; animation-delay: var(--d); }
+  @keyframes pkt-send {
+    0% { left: 0; transform: translate(0, -50%); opacity: 0; }
+    6% { opacity: 1; }
+    14% { opacity: 1; }
+    16.6% { left: 100%; transform: translate(-100%, -50%); opacity: 0; }
+    100% { left: 100%; transform: translate(-100%, -50%); opacity: 0; }
+  }
+  .node-home { width: auto; flex: 1.5; min-width: 0; }
+  .laptop { display: flex; flex-direction: column; align-items: center; width: 100%; }
+  .laptop-screen { position: relative; box-sizing: border-box; width: 100%; display: flex; flex-wrap: wrap; justify-content: center; align-content: center; gap: 5px; min-height: 84px; padding: 16px 10px 12px; border: 2px solid currentColor; border-radius: 6px 6px 0 0; }
+  .laptop-base { width: calc(100% + 18px); height: 8px; background: currentColor; clip-path: polygon(0 0, 100% 0, 96% 100%, 4% 100%); }
+  .db-them .laptop { color: var(--db-fg); }
+  .db-us .laptop { color: var(--ok); }
+  .laptop-lock { position: absolute; top: -11px; left: 50%; transform: translateX(-50%); padding: 0 4px; background: var(--sheet); color: var(--ok); box-sizing: content-box; }
+  .db-them .chip { background: color-mix(in srgb, var(--db-fg) 12%, transparent); color: var(--db-fg); animation: none; }
+  .chip { padding: 3px 6px; border-radius: 3px; background: color-mix(in srgb, var(--ok) 14%, transparent); color: var(--ink); font-size: 10px; font-weight: 700; text-transform: none; letter-spacing: 0; animation: chip-stay 3.6s ease-in-out infinite; }
+  .chip:nth-of-type(2) { animation-delay: .5s; } .chip:nth-of-type(3) { animation-delay: 1s; } .chip:nth-of-type(4) { animation-delay: 1.5s; } .chip:nth-of-type(5) { animation-delay: 2s; }
+  @keyframes chip-stay { 50% { transform: translateY(-2px); } }
+  .wire-cut { flex: .8; }
+  .zero { position: absolute; top: 0; left: 50%; transform: translate(-50%, -50%); padding: 3px 7px; background: var(--sheet); color: var(--ok); font-weight: 700; font-size: 11px; white-space: nowrap; }
+
+  /* The customer tables */
+  .db-head, .db-row { display: grid; grid-template-columns: 1.7fr .45fr 1.15fr 1fr 1fr; gap: 10px; align-items: center; padding: 0 16px; height: 32px; }
+  .db-head { font-size: 10px; letter-spacing: .07em; text-transform: uppercase; opacity: .55; border-top: 1px solid color-mix(in srgb, currentColor 18%, transparent); border-bottom: 1px solid color-mix(in srgb, currentColor 18%, transparent); }
+  .db-row { border-bottom: 1px solid color-mix(in srgb, currentColor 9%, transparent); white-space: nowrap; }
+  .db-head span, .db-row span { overflow: hidden; text-overflow: ellipsis; }
+  .db-head span:nth-child(n+4), .db-row span:nth-child(n+4) { text-align: right; }
+  @container (max-width: 520px) {
+    .col-addr { display: none; }
+    .db-head, .db-row { grid-template-columns: 1.6fr .45fr 1fr 1fr; gap: 8px; }
+  }
+  .db-window { position: relative; flex: none; height: 300px; overflow: hidden; }
+  .db-window::after { content: ""; position: absolute; inset: 0; pointer-events: none; background: linear-gradient(var(--db-bg), transparent 14%, transparent 80%, var(--db-bg)); }
+  .db-rows { animation: db-scroll 36s linear infinite; }
+  @keyframes db-scroll { to { transform: translateY(-50%); } }
+  .db-them .is-you { background: color-mix(in srgb, var(--db-red) 22%, transparent); box-shadow: inset 3px 0 0 var(--db-red); color: #fff; font-weight: 700; }
+  .db-us .db-head, .db-us .db-row { grid-template-columns: 1.3fr 1fr 1fr 1fr .8fr; }
+  .db-us .db-head span + span, .db-us .db-row span + span { text-align: right; }
+  .db-us .dash { color: var(--muted); }
+  .db-us .pay { color: var(--ok); font-weight: 700; }
+  @container (max-width: 520px) { .db-us .db-head, .db-us .db-row { grid-template-columns: 1.3fr 1fr 1fr .8fr; } }
+  .db-empty { flex: 1; min-height: 160px; display: grid; place-content: center; justify-items: center; gap: 10px; padding: 24px; text-align: center; color: var(--ok); }
+  .db-empty strong { font: 800 30px/1 var(--display); letter-spacing: -.02em; color: var(--ink); }
+  .db-empty span { max-width: 22em; font: 15px/1.45 var(--sans); color: var(--muted); }
+
+  /* The copy */
+  .db-breach { position: absolute; left: 0; right: 0; bottom: 0; height: 300px; display: grid; place-content: center; justify-items: center; gap: 14px; pointer-events: none; }
+  .db-window::before { content: ""; position: absolute; left: 0; right: 0; top: 0; height: 2px; z-index: 1; background: var(--db-red); box-shadow: 0 0 18px 2px var(--db-red); opacity: 0; }
+  .db-stamp { padding: 10px 20px; border: 3px solid var(--db-red); border-radius: 4px; background: color-mix(in srgb, var(--db-bg) 88%, transparent); color: var(--db-red); font: 800 30px/1 var(--mono); letter-spacing: .16em; text-transform: uppercase; opacity: 0; transform: rotate(-7deg) scale(1.6); }
+  .db-note { padding: 6px 10px; background: var(--db-bg); color: var(--db-fg); font-size: 12px; opacity: 0; }
+  .db-them.breached .db-window::before { animation: db-scan 1s ease-in forwards; }
+  .db-them.breached .db-rows { color: color-mix(in srgb, var(--db-red) 70%, var(--db-fg)); transition: color .4s .6s; }
+  .db-them.breached .db-stamp { animation: db-stamp .35s .9s cubic-bezier(.2, 1.6, .4, 1) forwards; }
+  .db-them.breached .db-note { animation: db-fade .3s 1.2s forwards; }
+  @keyframes db-scan { 0% { top: 0; opacity: 1; } 100% { top: 100%; opacity: 1; } }
+  @keyframes db-stamp { to { opacity: 1; transform: rotate(-7deg) scale(1); } }
+  @keyframes db-fade { to { opacity: 1; } }
+  @media (prefers-reduced-motion: reduce) {
+    .db-rows, .chip { animation: none; }
+    .pkt { animation: none; opacity: 1; position: static; display: inline-block; margin: 2px; transform: none; }
+    .wire:has(.pkt) { height: auto; border: 0; display: flex; flex-wrap: wrap; justify-content: center; }
+    .db-stamp { opacity: 1; transform: rotate(-7deg); }
+    .db-note { opacity: 1; }
+  }
+  h3.sub { font: 500 12px/1.4 var(--mono); letter-spacing: .08em; text-transform: uppercase; color: var(--muted); margin: 0 0 16px; }
+  .who h3 { margin-bottom: 12px; }
+  .who .next li::before { content: "→  "; font-family: var(--mono); color: var(--muted); }
+
+  /* Facts */
+  .facts-intro { margin: 0 0 24px; max-width: 36em; font-size: 20px; line-height: 1.5; }
+  .facts { list-style: none; margin: 0; padding: 0; display: grid; gap: 0; }
+  .fact { display: grid; gap: 6px 32px; padding: 24px 0; border-bottom: 1px solid var(--rule); }
+  .fact:first-child { border-top: 1px solid var(--ink); }
+  @media (min-width: 720px) { .fact { grid-template-columns: 180px 1fr; align-items: baseline; } }
+  .fact .date { font: 600 14px/1.4 var(--mono); }
+  .fact p { margin: 0; font-size: 18px; max-width: 44em; }
+  .fact sup { font: 600 11px/0 var(--mono); margin-left: 2px; }
+  .fact sup a { color: var(--muted); text-decoration: none; }
+  .fact sup a:hover { color: var(--ink); }
+
+  /* Sources, set apart like footnotes */
+  .sources { margin-top: 20px; font: 12px/1.6 var(--sans); color: var(--muted); max-width: 60em; }
+  .sources-title { margin: 0 0 6px; font: 600 11px/1.4 var(--mono); letter-spacing: .08em; text-transform: uppercase; }
+  .sources ol { margin: 0; padding-left: 18px; }
+  .sources li { padding: 2px 0; }
+  .sources li:target { color: var(--ink); }
+  .sources a { color: inherit; text-underline-offset: 2px; overflow-wrap: anywhere; }
+
+  /* Steps */
+  .steps { display: grid; gap: 32px; counter-reset: step; margin: 0; padding: 0; list-style: none; }
+  @media (min-width: 700px) { .steps { grid-template-columns: repeat(2, 1fr); } }
+  @media (min-width: 1080px) { .steps { grid-template-columns: repeat(4, 1fr); } }
+  .steps li { border-top: 2px solid var(--ink); padding-top: 20px; }
+  .steps li::before { counter-increment: step; content: "0" counter(step); display: block; font: 600 13px/1 var(--mono); color: var(--muted); margin-bottom: 16px; }
+  .steps p { margin: 0; color: var(--muted); }
+
+  /* Pricing */
+  .plans { display: grid; gap: 20px; margin: 8px 0 24px; }
+  @media (min-width: 760px) { .plans { grid-template-columns: 1fr 1fr; } }
+  .plan { padding: 28px 24px; border: 1px solid var(--rule); border-radius: 8px; background: var(--sheet); }
+  .plan-paid { border: 2px solid var(--ink); }
+  .plan-price { margin: 0 0 8px; font: 800 48px/1 var(--display); letter-spacing: -.03em; }
+  .plan-paid .plan-price { color: var(--stamp); }
+  .plan h3 { margin-top: 16px; }
+  .plan p:last-child { margin: 0; color: var(--muted); }
+  .plan ul { margin: 0; padding: 0; list-style: none; color: var(--muted); }
+  .plan li { padding: 8px 0; border-top: 1px solid var(--rule); }
+  .plan li:first-child { border-top: 0; padding-top: 0; }
+  .plan-note { max-width: 40em; margin: 0; font-size: 19px; }
+  .plan-note strong { color: var(--stamp); }
+
+  /* Scope of the first version */
+  .scope-head, .scope-row { display: grid; grid-template-columns: 200px 1fr 1fr; gap: 8px 24px; padding: 16px 0; border-bottom: 1px solid var(--rule); }
+  .scope-head { padding-top: 0; border-bottom: 2px solid var(--ink); font: 600 12px/1.4 var(--mono); letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
+  .scope .k { font: 500 12px/1.9 var(--mono); letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
+  .scope .now { font-weight: 600; }
+  .scope .next { color: var(--muted); }
+  @media (max-width: 639px) {
+    .scope-head, .scope-row { grid-template-columns: 1fr 1fr; }
+    .scope-head span:first-child { display: none; }
+    .scope .k { grid-column: 1 / -1; }
+  }
+
+  /* Stay informed */
+  .info { background: var(--ink); color: var(--paper); border-top: 0; }
+  .info .eyebrow { color: var(--paper); opacity: .7; }
+  .info .wrap { display: grid; gap: 40px; }
+  @media (min-width: 960px) { .info .wrap { grid-template-columns: .9fr 1.1fr; } }
+  .info p { max-width: 30em; }
+  .info .fine { font: 14px/1.5 var(--sans); opacity: .75; margin-top: 16px; }
+  .rdv { list-style: none; margin: 0; padding: 0; display: grid; gap: 0; }
+  .rdv li { padding: 24px 0; border-top: 1px solid color-mix(in srgb, var(--paper) 25%, transparent); }
+  .rdv li:first-child { border-top: 2px solid var(--paper); }
+  .rdv h3 { color: var(--paper); }
+  .rdv p { margin: 0 0 16px; opacity: .8; }
+  .info .btn { background: var(--stamp); color: var(--on-stamp); }
+  .info .btn.ghost { background: transparent; color: var(--paper); border: 1px solid var(--paper); }
+  .info .btn:focus-visible { outline-color: var(--paper); }
+
+  /* FAQ */
+  details { border-bottom: 1px solid var(--rule); }
+  details:first-of-type { border-top: 1px solid var(--ink); }
+  summary { cursor: pointer; list-style: none; padding: 20px 32px 20px 0; position: relative; font: 600 18px/1.4 var(--display); }
+  summary::-webkit-details-marker { display: none; }
+  summary::after { content: "+"; position: absolute; right: 0; top: 18px; font: 400 24px/1 var(--mono); }
+  details[open] summary::after { content: "−"; }
+  details p { margin: 0 0 20px; max-width: 42em; color: var(--muted); }
+
+  /* Footer */
+  footer { border-top: 1px solid var(--rule); padding: 40px 0 56px; font-size: 14px; color: var(--muted); }
+  footer .wrap { display: grid; gap: 12px; }
+  footer strong { color: var(--ink); font-weight: 600; }
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="wrap">
+    <a class="logo" href="#" aria-label="Papouilles, accueil"><svg class="mark" viewBox="0 0 64 64" aria-hidden="true"><rect width="64" height="64" rx="15" style="fill:var(--ink)"/><path d="M23 30v-7a9 9 0 0 1 18 0v7" fill="none" style="stroke:var(--paper)" stroke-width="5"/><rect x="15" y="28" width="34" height="26" rx="5" style="fill:var(--paper)"/><text x="32" y="48.5" text-anchor="middle" font-family="-apple-system, 'SF Pro Display', 'Helvetica Neue', Arial, sans-serif" font-weight="800" font-size="20" style="fill:var(--ink)">₿</text></svg>papouilles</a>
+    <span class="status eyebrow">Sortie · 1er janvier 2027</span>
+    <a class="btn small" href="#info">Restez informé</a>
+  </div>
+</header>
+
+<main>
+  <div class="hero">
+    <div class="wrap">
+      <div>
+        <p class="eyebrow">Déclaration fiscale crypto · 2086 · 3916-bis</p>
+        <h1>Déclarez vos cryptos. Gardez vos données.</h1>
+        <p class="lede">Quand il s'agit de vos cryptos, ne prenez aucun risque inutile. <span class="accent">Ne faites confiance à personne. Pas même à nous.</span></p>
+        <p class="lede">Papouilles prépare votre déclaration fiscale crypto sur votre ordinateur. Tout reste chez vous : l'historique de vos transactions, les adresses de vos portefeuilles, vos montants, votre rapport fiscal.</p>
+        <a class="btn" href="#info">Restez informé</a>
+      </div>
+
+      <div class="sheet">
+        <span class="stamp">Confiance : zéro</span>
+        <div class="sheet-head">
+          <strong class="trust-title">Qui détient vos données crypto <span>(transactions, adresses de portefeuilles, soldes, plus-values)</span>&nbsp;?</strong>
+        </div>
+        <table class="trust">
+          <thead>
+            <tr><th scope="col"><span class="sr-only">Question</span></th><th scope="col">Assistant en ligne</th><th scope="col">Papouilles</th></tr>
+          </thead>
+          <tbody>
+            <tr><th scope="row">Stockage</th><td class="them">Leurs serveurs</td><td class="us">Votre ordinateur</td></tr>
+            <tr><th scope="row">En cas de piratage</th><td class="them">Exposées</td><td class="us">Rien à voler</td></tr>
+            <tr><th scope="row">Faites confiance à</th><td class="them">Eux et leurs prestataires</td><td class="us">Personne</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <div class="statement">
+    <div class="wrap">
+      <p>Avec Papouilles, vos données restent <span>chez vous</span>, sur votre ordinateur.</p>
+    </div>
+  </div>
+
+  <section id="pourquoi">
+    <div class="wrap">
+      <p class="eyebrow">Assistant fiscal en ligne · Papouilles</p>
+      <h2>Un assistant fiscal en ligne prépare votre déclaration, mais stocke vos données les plus sensibles sur ses serveurs.</h2>
+      <p class="intro">Pour préparer votre déclaration, il exige vos transactions, vos adresses de portefeuilles, vos soldes, votre e-mail, parfois vos clés d'accès. Votre sécurité dépend alors de la sienne, et de celle de ses prestataires.</p>
+
+      <div class="versus" role="img" aria-label="À gauche, un assistant fiscal en ligne : vos transactions, adresses, soldes, plus-values, e-mail et clés d'accès partent de votre ordinateur vers ses serveurs, s'ajoutent à une base clients qui grossit, et cette base a déjà été copiée lors de fuites. À droite, Papouilles : les mêmes données restent verrouillées sur votre ordinateur, zéro octet envoyé, et la base clients de Papouilles ne contient que des paiements de 49 euros, sans aucune donnée crypto.">
+        <figure class="db db-them" id="db-them" aria-hidden="true">
+          <div class="db-top"><span>Un assistant fiscal en ligne</span><span class="db-sent">Envoyé ↑ <span id="sent">0 ko</span></span></div>
+          <div class="lane">
+            <div class="node node-home">
+              <div class="laptop">
+                <div class="laptop-screen"><span class="chip">Transactions</span><span class="chip">Adresses</span><span class="chip">Soldes</span><span class="chip">Plus-values</span><span class="chip">E-mail</span><span class="chip">Clés API</span></div>
+                <div class="laptop-base"></div>
+              </div>
+              <span>Votre ordinateur</span>
+            </div>
+            <div class="wire">
+              <span class="pkt" style="--d:0s">Transactions</span>
+              <span class="pkt" style="--d:1.2s">Adresses</span>
+              <span class="pkt" style="--d:2.4s">Soldes</span>
+              <span class="pkt" style="--d:3.6s">Plus-values</span>
+              <span class="pkt" style="--d:4.8s">E-mail</span>
+              <span class="pkt" style="--d:6s">Clés API</span>
+            </div>
+            <div class="node node-srv">
+              <svg viewBox="0 0 40 40" width="36" height="36"><rect x="4" y="3" width="32" height="10" rx="2" fill="none" stroke="currentColor" stroke-width="2"/><rect x="4" y="15" width="32" height="10" rx="2" fill="none" stroke="currentColor" stroke-width="2"/><rect x="4" y="27" width="32" height="10" rx="2" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="30" cy="8" r="1.6" fill="currentColor"/><circle cx="30" cy="20" r="1.6" fill="currentColor"/><circle cx="30" cy="32" r="1.6" fill="currentColor"/></svg>
+              <span>Leurs serveurs</span>
+            </div>
+          </div>
+          <div class="db-caption"><span>Base clients</span><span class="db-count"><span id="count">48 213</span> clients</span></div>
+          <div class="db-head"><span>E-mail</span><span>Dépt</span><span class="col-addr">Adresse</span><span>Solde</span><span>Plus-value</span></div>
+          <div class="db-window"><div class="db-rows" id="rows"></div></div>
+          <div class="db-breach"><span class="db-stamp" id="breach-stamp">Volé</span><span class="db-note" id="breach-note">Janvier 2026 · données clients volées</span></div>
+        </figure>
+
+        <figure class="db db-us" aria-hidden="true">
+          <div class="db-top"><span>Papouilles</span><span class="db-sent">Envoyé ↑ 0 octet</span></div>
+          <div class="lane">
+            <div class="node node-home">
+              <div class="laptop">
+                <div class="laptop-screen">
+                  <svg class="laptop-lock" viewBox="0 0 24 24" width="18" height="18"><rect x="4" y="10" width="16" height="11" rx="2" fill="currentColor"/><path d="M8 10V7a4 4 0 0 1 8 0v3" fill="none" stroke="currentColor" stroke-width="2.2"/></svg>
+                  <span class="chip">Transactions</span><span class="chip">Adresses</span><span class="chip">Soldes</span><span class="chip">Plus-values</span><span class="chip">Rapport</span>
+                </div>
+                <div class="laptop-base"></div>
+              </div>
+              <span>Votre ordinateur</span>
+            </div>
+            <div class="wire wire-cut"><span class="zero">Rien ne sort</span></div>
+            <div class="node node-srv node-ghost">
+              <svg viewBox="0 0 40 40" width="36" height="36"><rect x="4" y="3" width="32" height="34" rx="2" fill="none" stroke="currentColor" stroke-width="2" stroke-dasharray="4 4"/></svg>
+              <span>Aucun serveur</span>
+            </div>
+          </div>
+          <div class="db-caption"><span>Base clients</span><span class="db-count">Paiements uniquement</span></div>
+          <div class="db-head"><span>Client</span><span class="col-addr">Adresse</span><span>Solde</span><span>Plus-value</span><span>Paiement</span></div>
+          <div class="db-row"><span>achat #A41F</span><span class="col-addr dash">—</span><span class="dash">—</span><span class="dash">—</span><span class="pay">49&nbsp;€</span></div>
+          <div class="db-row"><span>achat #7C02</span><span class="col-addr dash">—</span><span class="dash">—</span><span class="dash">—</span><span class="pay">49&nbsp;€</span></div>
+          <div class="db-row"><span>achat #E95B</span><span class="col-addr dash">—</span><span class="dash">—</span><span class="dash">—</span><span class="pay">49&nbsp;€</span></div>
+          <div class="db-row"><span>achat #3D6A</span><span class="col-addr dash">—</span><span class="dash">—</span><span class="dash">—</span><span class="pay">49&nbsp;€</span></div>
+          <div class="db-empty">
+            <svg viewBox="0 0 24 24" width="48" height="48"><rect x="4" y="10" width="16" height="11" rx="2" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M8 10V7a4 4 0 0 1 8 0v3" fill="none" stroke="currentColor" stroke-width="1.6"/><circle cx="12" cy="15.5" r="1.4" fill="currentColor"/></svg>
+            <strong>Rien d'autre.</strong>
+          </div>
+        </figure>
+      </div>
+
+      <h3 class="sub">Ce qui est déjà arrivé</h3>
+      <p class="facts-intro">L'histoire récente le montre : vos données crypto sont exposées, et le risque est bien réel. Fuites, extorsion, et jusqu'aux agressions physiques.</p>
+      <ul class="facts">
+        <li class="fact">
+          <span class="date">Janvier 2026</span>
+          <p>Un assistant fiscal crypto français se fait voler ses données clients, suivi d'une tentative d'extorsion. E-mails, soldes, données de rapports fiscaux. Les attaquants revendiquent environ 50 000 clients. Le parquet de Paris enquête.<sup><a href="#src-1" aria-label="Source 1">1</a></sup></p>
+        </li>
+        <li class="fact">
+          <span class="date">Septembre 2026</span>
+          <p>Le même type de service, nouvel incident : un accès à son compte chez son prestataire d'e-mails. Adresses e-mail et départements de résidence de ses clients.<sup><a href="#src-2" aria-label="Source 2">2</a></sup></p>
+        </li>
+        <li class="fact">
+          <span class="date">Décembre 2025</span>
+          <p>Un service fiscal crypto international signale une fuite des adresses e-mail de ses clients, via l'outil de mesure d'audience qu'il utilisait.<sup><a href="#src-3" aria-label="Source 3">3</a></sup></p>
+        </li>
+        <li class="fact">
+          <span class="date">Janvier 2026</span>
+          <p>Les autorités alertent : les données volées dans le secteur crypto servent à des arnaques ciblées, et des malfaiteurs vont jusqu'à menacer et agresser physiquement les victimes.<sup><a href="#src-1" aria-label="Source 1">1</a></sup></p>
+        </li>
+        <li class="fact">
+          <span class="date">Janv.–août 2026</span>
+          <p>Plus de 70 enlèvements et séquestrations liés aux cryptomonnaies en France, selon le parquet national anticriminalité organisée. 67 sur toute l'année 2025.<sup><a href="#src-4" aria-label="Source 4">4</a></sup></p>
+        </li>
+      </ul>
+      <footer class="sources" aria-label="Sources">
+        <p class="sources-title">Sources</p>
+        <ol>
+          <li id="src-1">Cybermalveillance.gouv.fr, alerte sur les violations de données dans le secteur des crypto-actifs, 22 janvier 2026, mise à jour le 8 juin 2026. <a href="https://www.cybermalveillance.gouv.fr/tous-nos-contenus/actualites/violation-de-donnees-secteur-crypto-actifs-202601" rel="noopener noreferrer" target="_blank">cybermalveillance.gouv.fr ↗</a></li>
+          <li id="src-2">Fuites Infos, 15 septembre 2026. <a href="https://fuitesinfos.fr/article/2026-09-15-waltio" rel="noopener noreferrer" target="_blank">fuitesinfos.fr ↗</a></li>
+          <li id="src-3">Crypto Briefing, décembre 2025. <a href="https://cryptobriefing.com/koinly-email-leak-mixpanel/" rel="noopener noreferrer" target="_blank">cryptobriefing.com ↗</a></li>
+          <li id="src-4">franceinfo, chiffres du parquet national anticriminalité organisée, 11 septembre 2026. <a href="https://www.franceinfo.fr/economie/bitcoin/cryptomonnaies-plus-de-70-enlevements-et-sequestrations-recenses-sur-les-huit-premiers-mois-de-2026-d-apres-le-parquet-national-anticriminalite-organisee_8188352.html" rel="noopener noreferrer" target="_blank">franceinfo.fr ↗</a></li>
+        </ol>
+      </footer>
+    </div>
+  </section>
+
+  <section id="comment">
+    <div class="wrap">
+      <p class="eyebrow">Comment ça marche</p>
+      <h2>Une application à installer sur votre Mac. Tout se passe dedans.</h2>
+      <ol class="steps">
+        <li>
+          <h3>Installez l'application</h3>
+          <p>Téléchargez Papouilles et installez-le sur votre Mac, comme n'importe quelle application. Aucun compte à créer.</p>
+        </li>
+        <li>
+          <h3>Ajoutez vos sources</h3>
+          <p>Renseignez les adresses de vos portefeuilles et importez les exports de vos plateformes d'échange. Tout est stocké dans l'application, sur votre ordinateur.</p>
+        </li>
+        <li>
+          <h3>Vérifiez l'historique</h3>
+          <p>L'application reconstitue l'historique de votre foyer et signale ce qui manque : un transfert sans contrepartie, un prix absent. Vous corrigez, elle recalcule.</p>
+        </li>
+        <li>
+          <h3>Générez votre rapport</h3>
+          <p>Les montants des formulaires 2086 et 2042-C, et les comptes à déclarer sur le 3916-bis, prêts à reporter sur impots.gouv.fr. Chaque étape du calcul est visible.</p>
+        </li>
+      </ol>
+    </div>
+  </section>
+
+  <section id="tarif">
+    <div class="wrap">
+      <p class="eyebrow">Tarif</p>
+      <h2>Un prix. Un rapport. 49&nbsp;€.</h2>
+      <div class="plans">
+        <div class="plan">
+          <p class="plan-price">0&nbsp;€</p>
+          <h3>Suivez vos portefeuilles</h3>
+          <ul>
+            <li>Tous les portefeuilles de votre foyer, réunis au même endroit</li>
+            <li>L'historique complet de vos transactions</li>
+            <li>Chaque opération classée : achat, vente, transfert entre vos portefeuilles, paiement, don reçu</li>
+            <li>Les trous repérés : transfert sans contrepartie, prix manquant</li>
+            <li>La valeur de votre portefeuille</li>
+          </ul>
+        </div>
+        <div class="plan plan-paid">
+          <p class="plan-price">49&nbsp;€</p>
+          <h3>Votre rapport fiscal de l'année, prêt à déclarer</h3>
+          <p>Les montants des formulaires 2086 et 2042-C, la liste des comptes à déclarer sur le 3916-bis, et le détail du calcul en PDF.</p>
+        </div>
+      </div>
+      <p class="plan-note">Pas d'abonnement. Pas de prix qui grimpe avec vos transactions. Pas de surprise. <strong>Et aucune fuite possible.</strong></p>
+    </div>
+  </section>
+
+  <section id="premiere-version">
+    <div class="wrap">
+      <p class="eyebrow">La première version</p>
+      <h2>On commence petit.</h2>
+      <div class="scope">
+        <div class="scope-head"><span></span><span>Au lancement · 1er janvier 2027</span><span>Ensuite</span></div>
+        <div class="scope-row"><span class="k">Système</span><span class="now">macOS 26 ou plus récent</span><span class="next">D'autres systèmes</span></div>
+        <div class="scope-row"><span class="k">Crypto</span><span class="now">Bitcoin (BTC)</span><span class="next">D'autres cryptos</span></div>
+        <div class="scope-row"><span class="k">Plateforme d'échange</span><span class="now">Bitstack (export CSV)</span><span class="next">D'autres plateformes</span></div>
+        <div class="scope-row"><span class="k">Portefeuilles</span><span class="now">Adresses et clés publiques étendues (xpub)</span><span class="next">—</span></div>
+        <div class="scope-row"><span class="k">Règles fiscales</span><span class="now">France, revenus 2026</span><span class="next">D'autres pays</span></div>
+        <div class="scope-row"><span class="k">Autres opérations</span><span class="now">À saisir à la main : achat sur une autre plateforme, achat entre particuliers, paiement en bitcoin</span><span class="next">Importées automatiquement</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="info" id="info">
+    <div class="wrap">
+      <div>
+        <p class="eyebrow">Sortie · 1er janvier 2027</p>
+        <h2>Aucune inscription. Restez informé.</h2>
+        <p>La première version sort le 1er janvier 2027, juste à temps pour générer votre rapport 2026. Ouverte à tous. Pas de liste d'attente, pas d'e-mail à laisser. Choisissez comment suivre la sortie.</p>
+        <p class="fine">Pourquoi pas d'e-mail ? Parce que les fichiers d'e-mails fuient. En septembre 2026, les e-mails et départements des clients d'un assistant fiscal crypto ont été exposés via son prestataire d'envoi d'e-mails (<a href="https://fuitesinfos.fr/article/2026-09-15-waltio" rel="noopener noreferrer">source</a>). En décembre 2025, ceux d'un service fiscal crypto international, via son outil de mesure d'audience (<a href="https://cryptobriefing.com/koinly-email-leak-mixpanel/" rel="noopener noreferrer">source</a>).</p>
+      </div>
+      <ol class="rdv">
+        <li>
+          <h3>Ajoutez la date à votre calendrier</h3>
+          <p>Votre navigateur crée l'événement lui-même. Rien ne nous est envoyé.</p>
+          <button class="btn" id="add-to-calendar" type="button">Ajouter à mon calendrier</button>
+        </li>
+        <li>
+          <h3>Suivez le fil RSS</h3>
+          <p>Les nouvelles arrivent dans votre lecteur de flux. Nous ignorons qui nous lit.</p>
+          <a class="btn ghost" href="feed.xml">Fil RSS</a>
+        </li>
+        <li>
+          <h3>Écrivez-nous sur SimpleX</h3>
+          <p>Une messagerie sans numéro de téléphone ni identifiant. Vous choisissez ce que vous nous dites.</p>
+          <a class="btn ghost" id="simplex" href="#info">Écrire sur SimpleX</a>
+        </li>
+      </ol>
+    </div>
+  </section>
+
+  <section id="faq">
+    <div class="wrap">
+      <p class="eyebrow">Questions</p>
+      <h2>Les questions qu'on nous pose.</h2>
+      <details>
+        <summary>Pourquoi pas d'inscription par e-mail ?</summary>
+        <p>Parce qu'un fichier d'e-mails de détenteurs de cryptos est une cible. En septembre 2026, un assistant fiscal crypto a vu les e-mails et les départements de ses clients exposés via son prestataire d'envoi d'e-mails (<a href="https://fuitesinfos.fr/article/2026-09-15-waltio" rel="noopener noreferrer">source</a>). Ajoutez la date à votre calendrier, suivez le fil RSS, ou écrivez-nous sur SimpleX : vous restez maître de ce que vous partagez.</p>
+      </details>
+      <details>
+        <summary>Le calcul est-il conforme à la règle française ?</summary>
+        <p>Papouilles applique la méthode de l'article 150 VH bis du Code général des impôts : le prix total d'acquisition et la valeur globale du portefeuille à chaque cession, ligne par ligne comme sur le formulaire 2086. Chaque résultat affiche son détail. Papouilles fait un calcul, pas un conseil fiscal : vous restez responsable de votre déclaration.</p>
+      </details>
+      <details>
+        <summary>Sur quels ordinateurs ?</summary>
+        <p>Sur Mac d'abord. Une déclaration, c'est du travail de bureau : importer des fichiers, vérifier de longues listes, corriger. D'autres ordinateurs suivront.</p>
+      </details>
+      <details>
+        <summary>L'application se connecte-t-elle à Internet ?</summary>
+        <p>Oui, pour lire la blockchain et les cours des cryptos. Ces services publics voient les adresses consultées et votre adresse IP, comme pour toute consultation. Votre historique, vos montants et votre rapport restent sur votre ordinateur.</p>
+      </details>
+      <details>
+        <summary>Que savez-vous de moi ?</summary>
+        <p>Si vous achetez le rapport fiscal : que vous avez payé 49&nbsp;€. Le paiement passe par un prestataire de paiement. Vos transactions, vos adresses, vos soldes et votre rapport restent sur votre ordinateur, et nous n'y avons aucun accès.</p>
+      </details>
+      <details>
+        <summary>Combien ça coûte ?</summary>
+        <p>Suivre vos portefeuilles est gratuit. Votre rapport fiscal de l'année, prêt à déclarer, coûte 49&nbsp;€. Pas d'abonnement, et pas de prix qui grimpe avec vos transactions.</p>
+      </details>
+      <details>
+        <summary>Et si je perds mon ordinateur ?</summary>
+        <p>Vos données sont sur votre ordinateur, donc dans vos sauvegardes. Vous gardez la seule copie : c'est le principe.</p>
+      </details>
+      <details>
+        <summary>Est-ce que ça sert à cacher mes cryptos au fisc ?</summary>
+        <p>Papouilles sert à déclarer juste. Depuis 2026, les plateformes d'échange transmettent déjà vos opérations à l'administration fiscale. Ce que Papouilles protège, c'est votre historique complet : il reste chez vous, au lieu d'être copié chez une entreprise de plus.</p>
+      </details>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <strong>papouilles</strong>
+    <span>Ce site ne vous demande rien : aucune inscription, aucun cookie, aucun traceur, aucun script venu d'un autre serveur.</span>
+    <span>Papouilles est un nom de travail. Mentions légales : à venir.</span>
+  </div>
+</footer>
+
+<script>
+  // The release date, and the SimpleX contact link once the account exists.
+  const RELEASE_DATE = "2027-01-01";
+  const SIMPLEX_LINK = "";
+
+  // The online platform's customer table: fake rows, a growing counter, and a copy every few seconds.
+  const rows = document.getElementById("rows");
+  const count = document.getElementById("count");
+  const dbThem = document.getElementById("db-them");
+  const note = document.getElementById("breach-note");
+  const reduceMotion = matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  let seed = 7;
+  const rand = () => (seed = (seed * 16807) % 2147483647) / 2147483647;
+  const pick = (list) => list[Math.floor(rand() * list.length)];
+  const euros = (n) => Math.round(n).toLocaleString("fr-FR") + " €";
+  const domains = ["gmail.com", "proton.me", "orange.fr", "free.fr", "outlook.fr", "icloud.com", "yahoo.fr", "laposte.net"];
+  const letters = "abcdefghijklmnoprstv";
+  const hex = "0123456789abcdef";
+  const tail = (chars) => Array.from({ length: 4 }, () => pick(chars)).join("");
+  const row = (cells, you) => '<div class="db-row' + (you ? ' is-you' : '') + '">' +
+    cells.map((c, i) => '<span' + (i === 2 ? ' class="col-addr"' : '') + '>' + c + '</span>').join("") + "</div>";
+
+  let html = "";
+  for (let i = 0; i < 22; i++) {
+    if (i === 8) {
+      html += row(["vous@exemple.fr", "69", "bc1q…x8f2", "38 200 €", "+7 400 €"], true);
+      continue;
+    }
+    const gain = (rand() - 0.25) * 30000;
+    html += row([
+      pick(letters) + "•••••@" + pick(domains),
+      String(1 + Math.floor(rand() * 95)).padStart(2, "0"),
+      rand() < 0.6 ? "bc1q…" + tail("023456789acdefghjklmnpqrstuvwxyz") : "0x…" + tail(hex),
+      euros(500 + rand() * rand() * 250000),
+      (gain >= 0 ? "+" : "−") + euros(Math.abs(gain))
+    ]);
+  }
+  rows.innerHTML = html + html;
+
+  const sent = document.getElementById("sent");
+  let kilobytes = 0;
+  const size = (ko) => ko < 1000 ? Math.round(ko) + " ko" : (ko / 1000).toLocaleString("fr-FR", { maximumFractionDigits: 1, minimumFractionDigits: 1 }) + " Mo";
+
+  let customers = 48213;
+  const incidents = [
+    { stamp: "Volé", note: "Janvier 2026 · données clients volées, extorsion" },
+    { stamp: "Fuite", note: "Septembre 2026 · e-mails et départements exposés" },
+    { stamp: "Fuite", note: "Décembre 2025 · e-mails exposés via un outil d'audience" }
+  ];
+  const stampEl = document.getElementById("breach-stamp");
+  if (reduceMotion) {
+    note.textContent = "3 incidents publics depuis décembre 2025";
+    sent.textContent = "tout votre historique";
+  } else {
+    setInterval(() => {
+      kilobytes += 12 + Math.random() * 60;
+      sent.textContent = size(kilobytes);
+    }, 250);
+    setInterval(() => {
+      customers += 1 + Math.floor(Math.random() * 3);
+      count.textContent = customers.toLocaleString("fr-FR");
+    }, 900);
+    let next = 0;
+    const copy = () => {
+      stampEl.textContent = incidents[next].stamp;
+      note.textContent = incidents[next].note;
+      next = (next + 1) % incidents.length;
+      dbThem.classList.add("breached");
+      setTimeout(() => dbThem.classList.remove("breached"), 3400);
+    };
+    setTimeout(copy, 2500);
+    setInterval(copy, 8000);
+  }
+
+  // The calendar event is built here, in the browser. Nothing leaves the page.
+  document.getElementById("add-to-calendar").addEventListener("click", () => {
+    const day = RELEASE_DATE.replaceAll("-", "");
+    const next = new Date(RELEASE_DATE + "T00:00:00Z");
+    next.setUTCDate(next.getUTCDate() + 1);
+    const end = next.toISOString().slice(0, 10).replaceAll("-", "");
+    const stamp = new Date().toISOString().replace(/[-:]/g, "").slice(0, 15) + "Z";
+    const ics = [
+      "BEGIN:VCALENDAR",
+      "VERSION:2.0",
+      "PRODID:-//Papouilles//Release//FR",
+      "BEGIN:VEVENT",
+      "UID:" + crypto.randomUUID() + "@papouilles",
+      "DTSTAMP:" + stamp,
+      "DTSTART;VALUE=DATE:" + day,
+      "DTEND;VALUE=DATE:" + end,
+      "SUMMARY:Sortie de Papouilles",
+      "DESCRIPTION:Le lien de téléchargement est publié sur le site et dans le fil RSS.",
+      "URL:" + location.origin + location.pathname,
+      "END:VEVENT",
+      "END:VCALENDAR",
+      ""
+    ].join("\r\n");
+    const link = document.createElement("a");
+    link.href = URL.createObjectURL(new Blob([ics], { type: "text/calendar" }));
+    link.download = "papouilles-sortie.ics";
+    link.click();
+    URL.revokeObjectURL(link.href);
+  });
+
+  const simplex = document.getElementById("simplex");
+  if (SIMPLEX_LINK) {
+    simplex.href = SIMPLEX_LINK;
+    simplex.rel = "noopener noreferrer";
+  } else {
+    simplex.textContent = "SimpleX : bientôt";
+    simplex.removeAttribute("href");
+    simplex.setAttribute("aria-disabled", "true");
+  }
+</script>
+</body>
+</html>
