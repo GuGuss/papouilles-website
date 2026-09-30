@@ -12,7 +12,6 @@ Only `public/` is published.
 | `public/index.html` | The page. Self-contained: styles and scripts inline. |
 | `public/feed.xml` | The Atom feed for release news. |
 | `public/logo.svg` | The working logo. |
-| `public/_headers` | HTTP headers: security policy, no referrer, and `noindex` until the launch. |
 
 `drafts/` holds local design explorations. Git ignores it.
 
@@ -32,7 +31,7 @@ The brand and the market analysis live in the app repository: `docs/brand.md` an
 
 - A lawyer reviews the comparative claims and the legal notice.
 - Set `SIMPLEX_LINK` and check `RELEASE_DATE` in the script of `index.html`.
-- Remove the `noindex` from `public/_headers` and from the `robots` meta tag in `public/index.html`.
+- Remove the `noindex` from the `robots` meta tag in `public/index.html`.
 - Choose the domain.
 
 ## Preview
@@ -43,9 +42,10 @@ python3 -m http.server 4321 --bind 127.0.0.1 --directory public
 
 ## Deployment
 
-Cloudflare Pages, free plan, connected to this repository:
+GitHub Pages, from `.github/workflows/pages.yml`: each push to `main` publishes `public/`.
 
-- Each push to `main` deploys the production site.
-- Each pull request gets its own preview URL, posted on the pull request.
+The repository is public on purpose: anyone can check that the page has no tracker, no cookie and no
+third-party request.
 
-Settings: no framework, no build command, output directory `public`.
+GitHub Pages sets no custom HTTP headers. The security policy and the `noindex` live in the page, as
+meta tags.
