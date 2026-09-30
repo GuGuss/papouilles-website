@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="color-scheme" content="dark light">
 <title>Satoche — Déclarez vos cryptos, gardez vos données</title>
-<meta name="description" content="Déclarez vos cryptos, gardez vos données. Satoche prépare votre déclaration fiscale crypto sur votre ordinateur : historique, adresses et rapport restent chez vous. Sortie le 1er janvier 2027.">
+<meta name="description" content="Déclarez vos cryptos, gardez vos données. Satoche prépare votre déclaration fiscale crypto sur votre ordinateur : historique, montants et rapport restent chez vous. Sortie prévue le 1er janvier 2027.">
 <meta name="referrer" content="no-referrer">
 <meta name="robots" content="noindex, nofollow">
 <link rel="alternate" type="application/atom+xml" title="Satoche" href="feed.xml">
@@ -96,6 +96,7 @@
   .hero .wrap { position: relative; display: grid; gap: 28px; }
   .hero-copy, .hero-rest, .doc { position: relative; z-index: 1; }
   .hero-copy { margin-bottom: 4px; }
+  @media (max-width: 959px) { .hero-rest { order: 2; } .doc { order: 3; margin-top: 0; } }
   @media (min-width: 960px) { .hero-copy { margin-bottom: 32px; } }
   @media (min-width: 960px) {
     .hero { padding: 88px 0 112px; }
@@ -111,6 +112,7 @@
   .lede .ok { color: var(--brand-text); }
   .lede .accent { color: var(--brand-text); }
   .hero-rest .btn { margin-top: 10px; }
+  .cta-note { font: 14px/1.5 var(--font-ui); color: var(--text-muted); max-width: 34em; margin: 12px 0 0; }
   .legal { font: 14px/1.55 var(--font-ui); color: var(--text-muted); max-width: 34em; margin: 28px 0 0; padding-top: 18px; border-top: 1px solid var(--border); }
   .legal a { color: var(--text); }
 
@@ -134,7 +136,6 @@
   .win-body { padding: 6px 16px 16px; font: 13px/1.4 var(--font-mono); font-variant-numeric: tabular-nums; min-width: 0; }
   .win-head { display: flex; justify-content: space-between; align-items: center; gap: 10px; flex-wrap: wrap; margin: 12px 0 4px; }
   .win-title { margin: 0; font: 600 12px/1.4 var(--font-mono); letter-spacing: .06em; text-transform: uppercase; color: var(--text-muted); }
-  .badge { display: inline-flex; align-items: center; gap: 6px; padding: 4px 8px; border: 1px solid var(--brand-text); border-radius: 4px; color: var(--brand-text); font: 600 11px/1.2 var(--font-mono); white-space: nowrap; }
   .line { display: flex; justify-content: space-between; gap: 12px; padding: 10px 0; border-bottom: 1px dashed var(--border); }
   .line span:first-child { color: var(--text-muted); }
   .line span:last-child { white-space: nowrap; }
@@ -382,14 +383,14 @@
         <h1><span>Déclarez vos cryptos.</span> <span class="keep">Gardez vos données.</span></h1>
       </div>
 
-      <figure class="doc" role="img" aria-label="Exemple fictif de la fenêtre de l'application Satoche : rapport 2026, prix de cession 3 200 euros, prix total d'acquisition 9 400 euros, valeur globale du portefeuille 12 000 euros, plus-value 693 euros. Rien n'est envoyé à Satoche. Stocké sur cet ordinateur. Envoyé : 0 octet.">
+      <figure class="doc" role="img" aria-label="Exemple fictif de la fenêtre de l'application Satoche&nbsp;: rapport 2026, prix de cession 3 200 euros, prix total d'acquisition 9 400 euros, valeur globale du portefeuille 12 000 euros, plus-value 693 euros. Stocké sur cet ordinateur. Envoyé à Satoche, 0 octet.">
         <div class="win" aria-hidden="true">
-          <span class="stamp">Données : chez vous</span>
+          <span class="stamp">Données&nbsp;: chez vous</span>
           <div class="win-bar"><span class="lights"><i></i><i></i><i></i></span><span class="win-name">Satoche</span></div>
           <div class="win-main">
             <div class="side"><small>Foyer fiscal</small><span>Portefeuilles</span><span>Historique</span><span class="on">Rapport 2026</span></div>
             <div class="win-body">
-              <div class="win-head"><p class="win-title">Cession du 12 mars</p><span class="badge"><svg width="13" height="13" viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="10" width="16" height="11" rx="2" fill="currentColor"/><path d="M8 10V7a4 4 0 0 1 8 0v3" fill="none" stroke="currentColor" stroke-width="2.4"/></svg> Rien n'est envoyé à Satoche</span></div>
+              <div class="win-head"><p class="win-title">Cession du 12 mars</p></div>
               <div class="line" style="--i:0"><span>Prix de cession</span><span>3 200 €</span></div>
               <div class="line" style="--i:1"><span>Prix total d'acquisition</span><span>9 400 €</span></div>
               <div class="line" style="--i:2"><span>Valeur globale du portefeuille</span><span>12 000 €</span></div>
@@ -397,14 +398,15 @@
               <div class="line result" style="--i:4"><span>Plus-value</span><span>693 €</span></div>
             </div>
           </div>
-          <div class="doc-status"><div><svg width="13" height="13" viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="10" width="16" height="11" rx="2" fill="currentColor"/><path d="M8 10V7a4 4 0 0 1 8 0v3" fill="none" stroke="currentColor" stroke-width="2.4"/></svg> Stocké sur cet ordinateur</div><div class="net">Envoyé : 0 octet</div></div>
+          <div class="doc-status"><div><svg width="13" height="13" viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="10" width="16" height="11" rx="2" fill="currentColor"/><path d="M8 10V7a4 4 0 0 1 8 0v3" fill="none" stroke="currentColor" stroke-width="2.4"/></svg> Stocké sur cet ordinateur</div><div class="net">Envoyé à Satoche ↑ 0 octet</div></div>
         </div>
       </figure>
 
       <div class="hero-rest">
-        <p class="lede">Satoche prépare votre déclaration fiscale crypto sur votre ordinateur. <span class="ok">Tout reste chez vous</span> : historique, adresses, montants, rapport.</p>
+        <p class="lede">Satoche prépare votre déclaration fiscale crypto sur votre ordinateur, au lieu de la confier à un assistant fiscal en ligne. <span class="ok">Tout reste chez vous</span> : historique, montants, rapport.</p>
         <p class="lede">Quand il s'agit de vos cryptos, ne prenez aucun risque inutile. <span class="accent">Ne faites confiance à personne. Pas même à nous.</span></p>
         <a class="btn" href="#info">Suivre la sortie</a>
+        <p class="cta-note">Sortie prévue le 1er janvier 2027. Suivez-la sans vous inscrire&nbsp;: calendrier, fil RSS ou SimpleX.</p>
         <p class="legal">Selon l'<a href="https://www.legifrance.gouv.fr/codes/article_lc/LEGIARTI000038612228" rel="noopener noreferrer" target="_blank">article 150 VH bis du Code général des impôts ↗</a>, chaque particulier déclare chaque année le montant global de ses plus-values et moins-values sur cessions d'actifs numériques, sauf si le total de ses cessions de l'année n'excède pas 305&nbsp;€.</p>
       </div>
     </div>
@@ -414,15 +416,15 @@
     <div class="wrap">
       <div class="rail"><span class="no">1</span><span>Le problème</span></div>
       <h2>Si vous utilisez un <span class="accent">assistant fiscal en ligne</span>, il stocke vos données crypto les plus sensibles.</h2>
-      <p class="intro">Toutes vos transactions, vos adresses, vos soldes, votre e-mail, parfois vos clés d'accès. Votre sécurité dépend alors de la sienne et de celle de tous ses prestataires. Et l'histoire récente montre que ces bases peuvent fuir : <button type="button" class="linklike" aria-expanded="false" aria-controls="leaks">fuites publiques depuis décembre 2025</button>.</p>
+      <p class="intro">Toutes vos transactions, vos adresses, vos soldes, votre e-mail, parfois vos clés d'accès à vos plateformes. Votre sécurité dépend alors de la sienne et de celle de tous ses prestataires. Et l'histoire récente montre que ces bases peuvent fuir&nbsp;: <button type="button" class="linklike" aria-expanded="false" aria-controls="leaks">fuites publiques depuis décembre 2025</button>.</p>
 
       <div class="leaks" id="leaks" hidden>
         <ul class="facts">
           <li><span class="date">Déc. 2025</span><span>Un service fiscal crypto international signale une fuite des e-mails de ses clients, via son outil de mesure d'audience.<sup><a href="#src-1" aria-label="Source 1">1</a></sup></span></li>
           <li><span class="date">Janv. 2026</span><span>Un assistant fiscal crypto français se fait voler ses données clients (e-mails, soldes, données de rapports) et subit une tentative d'extorsion. Les attaquants revendiquent environ 50 000 clients. Le parquet de Paris enquête.<sup><a href="#src-2" aria-label="Source 2">2</a>, <a href="#src-3" aria-label="Source 3">3</a></sup></span></li>
-          <li><span class="date">Janv. 2026</span><span>Les autorités alertent : les données volées dans le secteur crypto servent à des arnaques ciblées, et des malfaiteurs vont jusqu'à menacer et agresser physiquement les victimes.<sup><a href="#src-2" aria-label="Source 2">2</a></sup></span></li>
-          <li><span class="date">Sept. 2026</span><span>Le même type de service, nouvel incident : un accès à son compte chez son prestataire d'e-mails. Adresses e-mail et départements de ses clients.<sup><a href="#src-4" aria-label="Source 4">4</a></sup></span></li>
-          <li><span class="date">Janv.–août 2026</span><span>Plus de 70 enlèvements et séquestrations liés aux cryptomonnaies en France, selon le parquet national anticriminalité organisée. 67 sur toute l'année 2025.<sup><a href="#src-5" aria-label="Source 5">5</a></sup></span></li>
+          <li><span class="date">Janv. 2026</span><span>Les autorités alertent&nbsp;: les données volées dans le secteur crypto servent à des arnaques ciblées, et des malfaiteurs vont jusqu'à menacer et agresser physiquement les victimes.<sup><a href="#src-2" aria-label="Source 2">2</a></sup></span></li>
+          <li><span class="date">Sept. 2026</span><span>Le même type de service, nouvel incident&nbsp;: un accès à son compte chez son prestataire d'e-mails. Adresses e-mail et départements de ses clients.<sup><a href="#src-4" aria-label="Source 4">4</a></sup></span></li>
+          <li><span class="date">Janv.–août 2026</span><span>Plus de 70 enlèvements et séquestrations liés aux cryptomonnaies en France, selon le parquet national anticriminalité organisée, contre 67 sur toute l'année 2025.<sup><a href="#src-5" aria-label="Source 5">5</a></sup></span></li>
         </ul>
         <ol class="sources" aria-label="Sources">
           <li id="src-1">Crypto Briefing, décembre 2025. <a href="https://cryptobriefing.com/koinly-email-leak-mixpanel/" rel="noopener noreferrer" target="_blank">cryptobriefing.com ↗</a></li>
@@ -433,7 +435,7 @@
         </ol>
       </div>
 
-      <div class="versus" role="img" aria-label="À gauche, un assistant fiscal en ligne : vos transactions, adresses, soldes, plus-values, e-mail et clés d'accès partent de votre ordinateur vers ses serveurs, s'ajoutent à une base clients qui grossit, et des bases de ce type ont déjà été copiées lors de fuites. À droite, Satoche : les mêmes données restent verrouillées sur votre ordinateur, zéro octet envoyé à Satoche, et la base clients de Satoche ne contient que des paiements de 49 euros, sans donnée crypto.">
+      <div class="versus" role="img" aria-label="À gauche, un assistant fiscal en ligne&nbsp;: vos transactions, adresses, soldes, plus-values, e-mail et clés d'accès partent de votre ordinateur vers ses serveurs, s'ajoutent à une base clients qui grossit, et des bases de ce type ont déjà été copiées lors de fuites. À droite, Satoche&nbsp;: les mêmes données restent verrouillées sur votre ordinateur, zéro octet envoyé à Satoche, et la base clients de Satoche ne contient que des paiements de 49 euros, sans donnée crypto.">
         <figure class="db db-them" id="db-them" aria-hidden="true">
           <div class="db-top"><span>Un assistant fiscal en ligne</span><span class="db-sent">Envoyé ↑ <span id="sent">0 ko</span></span></div>
           <div class="lane">
@@ -450,11 +452,11 @@
               <span class="pkt" style="--d:2.4s">Soldes</span>
               <span class="pkt" style="--d:3.6s">Plus-values</span>
               <span class="pkt" style="--d:4.8s">E-mail</span>
-              <span class="pkt" style="--d:6s">Clés API</span>
+              <span class="pkt" style="--d:6s">Clés d'accès</span>
             </div>
             <div class="node node-srv">
               <svg viewBox="0 0 40 40" width="36" height="36"><rect x="4" y="3" width="32" height="10" rx="2" fill="none" stroke="currentColor" stroke-width="2"/><rect x="4" y="15" width="32" height="10" rx="2" fill="none" stroke="currentColor" stroke-width="2"/><rect x="4" y="27" width="32" height="10" rx="2" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="30" cy="8" r="1.6" fill="currentColor"/><circle cx="30" cy="20" r="1.6" fill="currentColor"/><circle cx="30" cy="32" r="1.6" fill="currentColor"/></svg>
-              <div class="srv-chips"><span class="chip" style="--d:0s">Transactions</span><span class="chip" style="--d:1.2s">Adresses</span><span class="chip" style="--d:2.4s">Soldes</span><span class="chip" style="--d:3.6s">Plus-values</span><span class="chip" style="--d:4.8s">E-mail</span><span class="chip" style="--d:6s">Clés API</span></div>
+              <div class="srv-chips"><span class="chip" style="--d:0s">Transactions</span><span class="chip" style="--d:1.2s">Adresses</span><span class="chip" style="--d:2.4s">Soldes</span><span class="chip" style="--d:3.6s">Plus-values</span><span class="chip" style="--d:4.8s">E-mail</span><span class="chip" style="--d:6s">Clés d'accès</span></div>
               <span>Leurs serveurs</span>
             </div>
           </div>
@@ -465,7 +467,7 @@
         </figure>
 
         <figure class="db db-us" aria-hidden="true">
-          <div class="db-top"><span>Satoche</span><span class="db-sent">Envoyé à nous ↑ 0 octet</span></div>
+          <div class="db-top"><span>Satoche</span><span class="db-sent">Envoyé à Satoche ↑ 0 octet</span></div>
           <div class="lane">
             <div class="node node-home">
               <div class="laptop">
@@ -480,7 +482,7 @@
             <div class="wire wire-cut"><span class="zero"><svg viewBox="0 0 28 28" width="28" height="28"><circle cx="14" cy="14" r="12" fill="var(--bg)" stroke="currentColor" stroke-width="2"/><path d="M9 9l10 10M19 9L9 19" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></svg><span class="zero-label">Rien envoyé</span></span></div>
             <div class="node node-srv node-ghost">
               <svg viewBox="0 0 40 40" width="36" height="36"><rect x="4" y="3" width="32" height="10" rx="2" fill="none" stroke="currentColor" stroke-width="2"/><rect x="4" y="15" width="32" height="10" rx="2" fill="none" stroke="currentColor" stroke-width="2"/><rect x="4" y="27" width="32" height="10" rx="2" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="30" cy="8" r="1.6" fill="currentColor"/><circle cx="30" cy="20" r="1.6" fill="currentColor"/><circle cx="30" cy="32" r="1.6" fill="currentColor"/></svg>
-              <span>Pas de serveur</span>
+              <span>Aucune donnée reçue</span>
             </div>
           </div>
           <div class="db-caption"><span>Base clients</span><span class="db-count">Paiements uniquement</span></div>
@@ -503,40 +505,41 @@
       <div class="rail"><span class="no">2</span><span>Comment ça marche et tarif</span></div>
       <h2>Quatre étapes, sur votre ordinateur.</h2>
       <ol class="steps">
-        <li><h3>Installez</h3><p>Aucun compte à créer.</p></li>
-        <li><h3>Ajoutez vos sources</h3><p>Adresses de portefeuilles et exports de vos plateformes. Tout reste dans l'application.</p></li>
-        <li><h3>Vérifiez l'historique</h3><p>Elle signale ce qui manque : un transfert sans contrepartie, un prix absent.</p></li>
+        <li><h3>Installez</h3><p>Sans compte ni mot de passe.</p></li>
+        <li><h3>Ajoutez vos sources</h3><p>Adresses de portefeuilles et exports de vos plateformes. Vos sources sont enregistrées sur votre ordinateur.</p></li>
+        <li><h3>Vérifiez l'historique</h3><p>L'application signale ce qui manque&nbsp;: un transfert sans contrepartie, un prix absent.</p></li>
         <li><h3>Générez le rapport</h3><p>Formulaires 2086, 2042-C et 3916-bis, prêts à reporter sur impots.gouv.fr.</p></li>
       </ol>
       <h2 id="tarif" class="second">Un rapport fiscal, un prix unique.</h2>
       <div class="plans">
         <div class="plan">
           <p class="plan-price">0&nbsp;€</p>
-          <h3>Suivez vos portefeuilles</h3>
+          <h3>Le suivi de vos portefeuilles</h3>
           <p>Portefeuilles réunis, historique complet, opérations classées, trous repérés.</p>
         </div>
         <div class="plan plan-paid">
           <p class="plan-price">49&nbsp;€</p>
           <h3>Votre rapport fiscal de l'année</h3>
-          <p>Formulaires 2086, 2042-C et 3916-bis, détail du calcul en PDF.</p>
+          <p>Formulaires 2086, 2042-C et 3916-bis, détail du calcul en PDF. Régénérable jusqu'à votre déclaration.</p>
         </div>
       </div>
-      <p class="plan-note">Pas d'abonnement, pas de prix qui grimpe avec vos transactions.</p>
+      <p class="plan-note">Pas d'abonnement. Pas de prix qui augmente avec le nombre de transactions. Pas de surprise.</p>
     </div>
   </section>
 
   <section id="premiere-version">
     <div class="wrap">
       <div class="rail"><span class="no">3</span><span>La première version</span></div>
-      <h2>On commence petit, au lancement le 1er janvier 2027.</h2>
+      <h2>On commence par un cas précis.</h2>
       <div class="scope">
         <div class="scope-row"><span class="k">Système</span><span class="now">macOS 26 ou plus récent</span></div>
-        <div class="scope-row"><span class="k">Crypto</span><span class="now">Bitcoin (BTC), adresses et xpub</span></div>
+        <div class="scope-row"><span class="k">Crypto</span><span class="now">Bitcoin (BTC)&nbsp;: adresses et clés publiques étendues (xpub)</span></div>
+        <div class="scope-row"><span class="k">Foyer fiscal</span><span class="now">Ne détient que du Bitcoin</span></div>
         <div class="scope-row"><span class="k">Plateforme</span><span class="now">Bitstack (export CSV)</span></div>
         <div class="scope-row"><span class="k">Règles fiscales</span><span class="now">France, revenus 2026</span></div>
         <div class="scope-row"><span class="k">Autres opérations</span><span class="now">À saisir à la main</span></div>
       </div>
-      <p class="scope-next">Ensuite : d'autres systèmes, cryptos, plateformes et pays, et l'import automatique des autres opérations.</p>
+      <p class="scope-next">Ensuite&nbsp;: d'autres systèmes, cryptos, plateformes et pays, et l'import automatique des autres opérations.</p>
     </div>
   </section>
 
@@ -545,23 +548,23 @@
       <div class="rail"><span class="no">4</span><span>Sortie · 1er janvier 2027</span></div>
       <div class="info-grid">
         <div>
-          <h2>Restez informé de la sortie.</h2>
-          <p>Disponible en janvier 2027, à temps pour votre rapport 2026. Ouverte à tous, sans liste d'attente ni e-mail : un fichier d'e-mails de détenteurs de cryptos est une cible<sup><a href="#src-1" aria-label="Source 1">1</a>, <a href="#src-4" aria-label="Source 4">4</a></sup>.</p>
+          <h2>Suivez la sortie à votre façon.</h2>
+          <p>Sortie prévue le 1er janvier 2027, à temps pour votre rapport 2026. Ouverte à tous, sans liste d'attente ni e-mail, parce qu'un fichier d'e-mails de détenteurs de cryptos est une cible<sup><a href="#src-1" aria-label="Source 1">1</a>, <a href="#src-4" aria-label="Source 4">4</a></sup>.</p>
         </div>
         <ol class="rdv">
           <li>
             <svg class="ico" viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3.5" y="5" width="17" height="15" rx="2"/><path d="M3.5 10h17M8 3v4M16 3v4"/></svg>
             <div>
               <h3>Un rappel dans votre calendrier</h3>
-              <p>Créé par votre navigateur. Rien ne nous est envoyé.</p>
+              <p>Créé dans votre navigateur&nbsp;: rien ne nous est envoyé.</p>
               <button class="btn" id="add-to-calendar" type="button">Ajouter à mon calendrier</button>
             </div>
           </li>
           <li>
             <svg class="ico" viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 5a14 14 0 0 1 14 14M5 11a8 8 0 0 1 8 8"/><circle cx="6" cy="18" r="1.2"/></svg>
             <div>
-              <h3>Les nouvelles dans votre lecteur</h3>
-              <p>Un fil RSS : nous ignorons qui nous lit.</p>
+              <h3>Les nouvelles dans votre lecteur RSS</h3>
+              <p>Un fil d'actualités que vous lisez sans vous identifier.</p>
               <a class="btn" href="feed.xml">S'abonner au fil RSS</a>
             </div>
           </li>
@@ -583,20 +586,20 @@
       <div class="rail"><span class="no">5</span><span>FAQ</span></div>
       <h2>Questions.</h2>
       <details>
-        <summary>Le calcul est-il conforme à la règle française ?</summary>
-        <p>Satoche applique la méthode de l'article 150 VH bis du Code général des impôts, ligne par ligne comme sur le formulaire 2086, et affiche le détail de chaque résultat. C'est un calcul, pas un conseil fiscal : vous restez responsable de votre déclaration.</p>
+        <summary>Le calcul est-il conforme à la règle française&nbsp;?</summary>
+        <p>Satoche applique la méthode de l'article 150 VH bis du Code général des impôts, ligne par ligne comme sur le formulaire 2086, et affiche le détail de chaque résultat. C'est un calcul, pas un conseil fiscal&nbsp;: vous restez responsable de votre déclaration.</p>
       </details>
       <details>
-        <summary>L'application se connecte-t-elle à Internet ?</summary>
-        <p>Oui, pour lire la blockchain et les cours des cryptos. Ces services publics voient les adresses consultées et votre adresse IP. Votre historique, vos montants et votre rapport restent sur votre ordinateur.</p>
+        <summary>L'application se connecte-t-elle à Internet&nbsp;?</summary>
+        <p>Oui, pour lire la blockchain et les cours des cryptos. Ces services voient les adresses consultées et votre adresse IP&nbsp;; nous n'en recevons rien. Votre historique, vos montants et votre rapport restent sur votre ordinateur.</p>
       </details>
       <details>
-        <summary>Que savez-vous de moi ?</summary>
-        <p>Si vous achetez le rapport : que vous avez payé 49&nbsp;€, via un prestataire de paiement. Le reste reste sur votre ordinateur, et nous n'y avons aucun accès.</p>
+        <summary>Que savez-vous de moi&nbsp;?</summary>
+        <p>Si vous achetez le rapport&nbsp;: que vous avez payé 49&nbsp;€, via un prestataire de paiement. Tout le reste demeure sur votre ordinateur, sans aucun accès pour nous.</p>
       </details>
       <details>
-        <summary>Est-ce que ça sert à cacher mes cryptos au fisc ?</summary>
-        <p>Non. Satoche sert à déclarer juste, et la déclaration se fait toujours sur impots.gouv.fr. Elle protège votre historique complet : il reste chez vous, au lieu d'être copié chez une entreprise de plus.</p>
+        <summary>Est-ce que ça sert à cacher mes cryptos au fisc&nbsp;?</summary>
+        <p>Non. Satoche sert à déclarer juste, et la déclaration se fait toujours sur impots.gouv.fr. Elle protège votre historique complet&nbsp;: il reste chez vous, au lieu d'être copié chez une entreprise de plus.</p>
       </details>
     </div>
   </section>
@@ -605,10 +608,10 @@
 <footer>
   <div class="wrap">
     <a class="logo" href="#" aria-label="Satoche, haut de page"><svg class="sym" viewBox="0 0 701.5 200" role="img" aria-hidden="true"><use href="#wm"/></svg></a>
-    <span>Ce site ne collecte rien : aucune inscription, aucun cookie, aucun traceur, aucun script tiers.</span>
-    <span>Le code de ce site est public : <a href="https://github.com/GuGuss/satoche-web" rel="noopener noreferrer">le dépôt sur GitHub</a>. Vérifiez-le.</span>
+    <span>Ce site ne collecte rien&nbsp;: aucune inscription, aucun cookie, aucun traceur, aucun script tiers.</span>
+    <span>Le code de ce site est public&nbsp;: <a href="https://github.com/GuGuss/satoche-web" rel="noopener noreferrer">le dépôt sur GitHub</a>. Vérifiez-le.</span>
     <span>Satoche est un nom de travail.</span>
-    <span>Mentions légales. Éditeur et directeur de la publication : Augustin Delaporte. Contact : <a href="https://github.com/GuGuss/satoche-web/issues" rel="noopener noreferrer">ouvrir une discussion sur le dépôt public</a>. Hébergeur : GitHub, Inc., 88 Colin P. Kelly Jr. Street, San Francisco, CA 94107, États-Unis.</span>
+    <span>Mentions légales. Éditeur et directeur de la publication&nbsp;: Augustin Delaporte. Contact&nbsp;: <a href="https://github.com/GuGuss/satoche-web/issues" rel="noopener noreferrer">ouvrir une discussion sur le dépôt public</a>. Hébergeur&nbsp;: GitHub, Inc., 88 Colin P. Kelly Jr. Street, San Francisco, CA 94107, États-Unis.</span>
   </div>
 </footer>
 
@@ -731,7 +734,7 @@
     simplex.href = SIMPLEX_LINK;
     simplex.rel = "noopener noreferrer";
   } else {
-    simplex.textContent = "SimpleX : bientôt";
+    simplex.textContent = "SimpleX\u00a0: bientôt";
     simplex.removeAttribute("href");
     simplex.setAttribute("aria-disabled", "true");
   }
