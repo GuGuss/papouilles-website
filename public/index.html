@@ -100,6 +100,9 @@
   .lede { font-size: 20px; line-height: 1.5; max-width: 34em; margin: 0 0 32px; }
   .lede + .lede { margin-top: -16px; }
   .lede .accent { color: var(--stamp); }
+  .lede .ok { color: var(--ok); }
+  .legal { font: 14px/1.5 var(--sans); color: var(--muted); max-width: 34em; margin: 24px 0 0; }
+  .legal a { color: inherit; text-decoration: underline; text-underline-offset: 2px; }
 
   /* The form card */
   .sheet {
@@ -140,7 +143,7 @@
   .stamp {
     position: absolute; right: 18px; top: -18px;
     transform: rotate(4deg);
-    border: 2px solid var(--stamp); color: var(--stamp);
+    border: 2px solid var(--ok); color: var(--ok);
     background: var(--sheet);
     padding: 6px 10px; border-radius: 4px;
     font: 800 12px/1.2 var(--mono); letter-spacing: .08em; text-transform: uppercase;
@@ -155,6 +158,7 @@
   /* Sections */
   section { padding: 72px 0; border-top: 1px solid var(--rule); }
   @media (min-width: 960px) { section { padding: 104px 0; } }
+  h2 .accent { color: var(--stamp); }
   h2 { font: 800 clamp(30px, 4.4vw, 48px)/1.08 var(--display); letter-spacing: -.03em; margin: 12px 0 20px; max-width: 18em; }
   h3 { font: 700 19px/1.3 var(--display); margin: 0 0 8px; letter-spacing: -.01em; }
   .intro { font-size: 19px; max-width: 38em; margin: 0 0 40px; color: var(--ink); }
@@ -198,13 +202,20 @@
   .db-them .chip { background: color-mix(in srgb, var(--db-fg) 12%, transparent); color: var(--db-fg); animation: none; }
   .chip { padding: 3px 6px; border-radius: 3px; background: color-mix(in srgb, var(--ok) 14%, transparent); color: var(--ink); font-size: 10px; font-weight: 700; text-transform: none; letter-spacing: 0; animation: chip-stay 3.6s ease-in-out infinite; }
   .chip:nth-of-type(2) { animation-delay: .5s; } .chip:nth-of-type(3) { animation-delay: 1s; } .chip:nth-of-type(4) { animation-delay: 1.5s; } .chip:nth-of-type(5) { animation-delay: 2s; }
+  .db-them .node-home { flex: .7; }
+  .db-them .node-srv { width: auto; flex: 1.5; min-width: 0; }
+  .srv-chips { display: flex; flex-wrap: wrap; justify-content: center; gap: 5px; }
+  .db-them .srv-chips .chip { animation: chip-stored 7.2s linear infinite backwards; animation-delay: calc(var(--d) + 1.2s); }
+  @keyframes chip-stored { 0% { opacity: 0; } 4% { opacity: 1; } 100% { opacity: 1; } }
   @keyframes chip-stay { 50% { transform: translateY(-2px); } }
   .wire-cut { flex: .8; }
-  .zero { position: absolute; top: 0; left: 50%; transform: translate(-50%, -50%); padding: 3px 7px; background: var(--sheet); color: var(--ok); font-weight: 700; font-size: 11px; white-space: nowrap; }
+  .zero { position: absolute; top: 0; left: 50%; transform: translate(-50%, -50%); display: block; color: var(--ok); font-weight: 700; font-size: 11px; line-height: 0; }
+  .zero svg { display: block; }
+  .zero-label { position: absolute; top: 100%; left: 50%; transform: translateX(-50%); margin-top: 8px; line-height: 1.2; white-space: nowrap; }
 
   /* The customer tables */
   .db-head, .db-row { display: grid; grid-template-columns: 1.7fr .45fr 1.15fr 1fr 1fr; gap: 10px; align-items: center; padding: 0 16px; height: 32px; }
-  .db-head { font-size: 10px; letter-spacing: .07em; text-transform: uppercase; opacity: .55; border-top: 1px solid color-mix(in srgb, currentColor 18%, transparent); border-bottom: 1px solid color-mix(in srgb, currentColor 18%, transparent); }
+  .db-head { font-size: 10px; letter-spacing: .07em; text-transform: uppercase; opacity: .7; border-top: 1px solid color-mix(in srgb, currentColor 18%, transparent); border-bottom: 1px solid color-mix(in srgb, currentColor 18%, transparent); }
   .db-row { border-bottom: 1px solid color-mix(in srgb, currentColor 9%, transparent); white-space: nowrap; }
   .db-head span, .db-row span { overflow: hidden; text-overflow: ellipsis; }
   .db-head span:nth-child(n+4), .db-row span:nth-child(n+4) { text-align: right; }
@@ -239,7 +250,7 @@
   @keyframes db-stamp { to { opacity: 1; transform: rotate(-7deg) scale(1); } }
   @keyframes db-fade { to { opacity: 1; } }
   @media (prefers-reduced-motion: reduce) {
-    .db-rows, .chip { animation: none; }
+    .db-rows, .chip, .db-them .srv-chips .chip { animation: none; }
     .pkt { animation: none; opacity: 1; position: static; display: inline-block; margin: 2px; transform: none; }
     .wire:has(.pkt) { height: auto; border: 0; display: flex; flex-wrap: wrap; justify-content: center; }
     .db-stamp { opacity: 1; transform: rotate(-7deg); }
@@ -312,13 +323,18 @@
   .info p { max-width: 30em; }
   .info .fine { font: 14px/1.5 var(--sans); opacity: .75; margin-top: 16px; }
   .rdv { list-style: none; margin: 0; padding: 0; display: grid; gap: 0; }
-  .rdv li { padding: 24px 0; border-top: 1px solid color-mix(in srgb, var(--paper) 25%, transparent); }
+  .rdv li { display: grid; grid-template-columns: 24px 1fr; gap: 16px; padding: 24px 0; border-top: 1px solid color-mix(in srgb, var(--paper) 25%, transparent); }
   .rdv li:first-child { border-top: 2px solid var(--paper); }
   .rdv h3 { color: var(--paper); }
+  .rdv .ico { margin-top: 2px; color: var(--paper); }
   .rdv p { margin: 0 0 16px; opacity: .8; }
-  .info .btn { background: var(--stamp); color: var(--on-stamp); }
-  .info .btn.ghost { background: transparent; color: var(--paper); border: 1px solid var(--paper); }
+  .info .btn { background: transparent; color: var(--paper); border: 1px solid var(--paper); }
+  .info .btn:hover { background: var(--paper); color: var(--ink); }
   .info .btn:focus-visible { outline-color: var(--paper); }
+  .info .btn[aria-disabled="true"] { opacity: .6; cursor: default; }
+  .info .btn[aria-disabled="true"]:hover { background: transparent; color: var(--paper); }
+  .info .fine sup { font: 600 11px/0 var(--mono); }
+  .info .fine sup a { text-decoration: none; }
 
   /* FAQ */
   details { border-bottom: 1px solid var(--rule); }
@@ -330,9 +346,9 @@
   details p { margin: 0 0 20px; max-width: 42em; color: var(--muted); }
 
   /* Footer */
-  footer { border-top: 1px solid var(--rule); padding: 40px 0 56px; font-size: 14px; color: var(--muted); }
-  footer .wrap { display: grid; gap: 12px; }
-  footer strong { color: var(--ink); font-weight: 600; }
+  body > footer { border-top: 1px solid var(--rule); padding: 40px 0 56px; font-size: 14px; color: var(--muted); }
+  body > footer .wrap { display: grid; gap: 12px; }
+  body > footer strong { color: var(--ink); font-weight: 600; }
 </style>
 </head>
 <body>
@@ -341,7 +357,7 @@
   <div class="wrap">
     <a class="logo" href="#" aria-label="Papouilles, accueil"><svg class="mark" viewBox="0 0 64 64" aria-hidden="true"><rect width="64" height="64" rx="15" style="fill:var(--ink)"/><path d="M23 30v-7a9 9 0 0 1 18 0v7" fill="none" style="stroke:var(--paper)" stroke-width="5"/><rect x="15" y="28" width="34" height="26" rx="5" style="fill:var(--paper)"/><text x="32" y="48.5" text-anchor="middle" font-family="-apple-system, 'SF Pro Display', 'Helvetica Neue', Arial, sans-serif" font-weight="800" font-size="20" style="fill:var(--ink)">₿</text></svg>papouilles</a>
     <span class="status eyebrow">Sortie · 1er janvier 2027</span>
-    <a class="btn small" href="#info">Restez informé</a>
+    <a class="btn small" href="#info">Suivre la sortie</a>
   </div>
 </header>
 
@@ -349,21 +365,22 @@
   <div class="hero">
     <div class="wrap">
       <div>
-        <p class="eyebrow">Déclaration fiscale crypto · 2086 · 3916-bis</p>
+        <p class="eyebrow">Fiscalité crypto · 2086 · <span style="white-space:nowrap">3916-bis</span></p>
         <h1>Déclarez vos cryptos. Gardez vos données.</h1>
+        <p class="lede">Papouilles est l'application qui prépare votre déclaration fiscale crypto sur votre ordinateur. <span class="ok">Tout reste chez vous</span> : l'historique de vos transactions, les adresses de vos portefeuilles, vos montants, votre rapport fiscal.</p>
         <p class="lede">Quand il s'agit de vos cryptos, ne prenez aucun risque inutile. <span class="accent">Ne faites confiance à personne. Pas même à nous.</span></p>
-        <p class="lede">Papouilles prépare votre déclaration fiscale crypto sur votre ordinateur. Tout reste chez vous : l'historique de vos transactions, les adresses de vos portefeuilles, vos montants, votre rapport fiscal.</p>
-        <a class="btn" href="#info">Restez informé</a>
+        <a class="btn" href="#info">Suivre la sortie</a>
+        <p class="legal">Selon l'<a href="https://www.legifrance.gouv.fr/codes/article_lc/LEGIARTI000038612228" rel="noopener noreferrer" target="_blank">article 150 VH bis du Code général des impôts ↗</a>, chaque particulier déclare chaque année le montant global de ses plus-values et moins-values sur cessions d'actifs numériques, sauf si le total de ses cessions de l'année n'excède pas 305&nbsp;€.</p>
       </div>
 
       <div class="sheet">
-        <span class="stamp">Confiance : zéro</span>
+        <span class="stamp">Données : chez vous</span>
         <div class="sheet-head">
           <strong class="trust-title">Qui détient vos données crypto <span>(transactions, adresses de portefeuilles, soldes, plus-values)</span>&nbsp;?</strong>
         </div>
         <table class="trust">
           <thead>
-            <tr><th scope="col"><span class="sr-only">Question</span></th><th scope="col">Assistant en ligne</th><th scope="col">Papouilles</th></tr>
+            <tr><th scope="col"><span class="sr-only">Question</span></th><th scope="col">Assistant fiscal en ligne</th><th scope="col">Papouilles</th></tr>
           </thead>
           <tbody>
             <tr><th scope="row">Stockage</th><td class="them">Leurs serveurs</td><td class="us">Votre ordinateur</td></tr>
@@ -383,17 +400,17 @@
 
   <section id="pourquoi">
     <div class="wrap">
-      <p class="eyebrow">Assistant fiscal en ligne · Papouilles</p>
-      <h2>Un assistant fiscal en ligne prépare votre déclaration, mais stocke vos données les plus sensibles sur ses serveurs.</h2>
+      <p class="eyebrow">Le problème</p>
+      <h2>Un <span class="accent">assistant fiscal en ligne</span> prépare votre déclaration, mais stocke vos données les plus sensibles sur ses serveurs.</h2>
       <p class="intro">Pour préparer votre déclaration, il exige vos transactions, vos adresses de portefeuilles, vos soldes, votre e-mail, parfois vos clés d'accès. Votre sécurité dépend alors de la sienne, et de celle de ses prestataires.</p>
 
-      <div class="versus" role="img" aria-label="À gauche, un assistant fiscal en ligne : vos transactions, adresses, soldes, plus-values, e-mail et clés d'accès partent de votre ordinateur vers ses serveurs, s'ajoutent à une base clients qui grossit, et cette base a déjà été copiée lors de fuites. À droite, Papouilles : les mêmes données restent verrouillées sur votre ordinateur, zéro octet envoyé, et la base clients de Papouilles ne contient que des paiements de 49 euros, sans aucune donnée crypto.">
+      <div class="versus" role="img" aria-label="À gauche, un assistant fiscal en ligne : vos transactions, adresses, soldes, plus-values, e-mail et clés d'accès partent de votre ordinateur vers ses serveurs, s'ajoutent à une base clients qui grossit, et des bases de ce type ont déjà été copiées lors de fuites. À droite, Papouilles : les mêmes données restent verrouillées sur votre ordinateur, zéro octet envoyé à Papouilles, et la base clients de Papouilles ne contient que des paiements de 49 euros, sans donnée crypto.">
         <figure class="db db-them" id="db-them" aria-hidden="true">
           <div class="db-top"><span>Un assistant fiscal en ligne</span><span class="db-sent">Envoyé ↑ <span id="sent">0 ko</span></span></div>
           <div class="lane">
             <div class="node node-home">
               <div class="laptop">
-                <div class="laptop-screen"><span class="chip">Transactions</span><span class="chip">Adresses</span><span class="chip">Soldes</span><span class="chip">Plus-values</span><span class="chip">E-mail</span><span class="chip">Clés API</span></div>
+                <div class="laptop-screen"></div>
                 <div class="laptop-base"></div>
               </div>
               <span>Votre ordinateur</span>
@@ -408,6 +425,7 @@
             </div>
             <div class="node node-srv">
               <svg viewBox="0 0 40 40" width="36" height="36"><rect x="4" y="3" width="32" height="10" rx="2" fill="none" stroke="currentColor" stroke-width="2"/><rect x="4" y="15" width="32" height="10" rx="2" fill="none" stroke="currentColor" stroke-width="2"/><rect x="4" y="27" width="32" height="10" rx="2" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="30" cy="8" r="1.6" fill="currentColor"/><circle cx="30" cy="20" r="1.6" fill="currentColor"/><circle cx="30" cy="32" r="1.6" fill="currentColor"/></svg>
+              <div class="srv-chips"><span class="chip" style="--d:0s">Transactions</span><span class="chip" style="--d:1.2s">Adresses</span><span class="chip" style="--d:2.4s">Soldes</span><span class="chip" style="--d:3.6s">Plus-values</span><span class="chip" style="--d:4.8s">E-mail</span><span class="chip" style="--d:6s">Clés API</span></div>
               <span>Leurs serveurs</span>
             </div>
           </div>
@@ -418,7 +436,7 @@
         </figure>
 
         <figure class="db db-us" aria-hidden="true">
-          <div class="db-top"><span>Papouilles</span><span class="db-sent">Envoyé ↑ 0 octet</span></div>
+          <div class="db-top"><span>Papouilles</span><span class="db-sent">Envoyé à nous ↑ 0 octet</span></div>
           <div class="lane">
             <div class="node node-home">
               <div class="laptop">
@@ -430,10 +448,10 @@
               </div>
               <span>Votre ordinateur</span>
             </div>
-            <div class="wire wire-cut"><span class="zero">Rien ne sort</span></div>
+            <div class="wire wire-cut"><span class="zero"><svg viewBox="0 0 28 28" width="28" height="28"><circle cx="14" cy="14" r="12" fill="var(--sheet)" stroke="currentColor" stroke-width="2"/><path d="M9 9l10 10M19 9L9 19" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></svg><span class="zero-label">Rien envoyé</span></span></div>
             <div class="node node-srv node-ghost">
-              <svg viewBox="0 0 40 40" width="36" height="36"><rect x="4" y="3" width="32" height="34" rx="2" fill="none" stroke="currentColor" stroke-width="2" stroke-dasharray="4 4"/></svg>
-              <span>Aucun serveur</span>
+              <svg viewBox="0 0 40 40" width="36" height="36"><rect x="4" y="3" width="32" height="10" rx="2" fill="none" stroke="currentColor" stroke-width="2"/><rect x="4" y="15" width="32" height="10" rx="2" fill="none" stroke="currentColor" stroke-width="2"/><rect x="4" y="27" width="32" height="10" rx="2" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="30" cy="8" r="1.6" fill="currentColor"/><circle cx="30" cy="20" r="1.6" fill="currentColor"/><circle cx="30" cy="32" r="1.6" fill="currentColor"/></svg>
+              <span>Pas de serveur</span>
             </div>
           </div>
           <div class="db-caption"><span>Base clients</span><span class="db-count">Paiements uniquement</span></div>
@@ -453,33 +471,34 @@
       <p class="facts-intro">L'histoire récente le montre : vos données crypto sont exposées, et le risque est bien réel. Fuites, extorsion, et jusqu'aux agressions physiques.</p>
       <ul class="facts">
         <li class="fact">
+          <span class="date">Décembre 2025</span>
+          <p>Un service fiscal crypto international signale une fuite des adresses e-mail de ses clients, via l'outil de mesure d'audience qu'il utilisait.<sup><a href="#src-1" aria-label="Source 1">1</a></sup></p>
+        </li>
+        <li class="fact">
           <span class="date">Janvier 2026</span>
-          <p>Un assistant fiscal crypto français se fait voler ses données clients, suivi d'une tentative d'extorsion. E-mails, soldes, données de rapports fiscaux. Les attaquants revendiquent environ 50 000 clients. Le parquet de Paris enquête.<sup><a href="#src-1" aria-label="Source 1">1</a></sup></p>
+          <p>Un assistant fiscal crypto français se fait voler ses données clients, suivi d'une tentative d'extorsion. E-mails, soldes, données de rapports fiscaux. Les attaquants revendiquent environ 50 000 clients. Le parquet de Paris enquête.<sup><a href="#src-2" aria-label="Source 2">2</a>, <a href="#src-3" aria-label="Source 3">3</a></sup></p>
+        </li>
+        <li class="fact">
+          <span class="date">Janvier 2026</span>
+          <p>Les autorités alertent : les données volées dans le secteur crypto servent à des arnaques ciblées, et des malfaiteurs vont jusqu'à menacer et agresser physiquement les victimes.<sup><a href="#src-2" aria-label="Source 2">2</a></sup></p>
         </li>
         <li class="fact">
           <span class="date">Septembre 2026</span>
-          <p>Le même type de service, nouvel incident : un accès à son compte chez son prestataire d'e-mails. Adresses e-mail et départements de résidence de ses clients.<sup><a href="#src-2" aria-label="Source 2">2</a></sup></p>
-        </li>
-        <li class="fact">
-          <span class="date">Décembre 2025</span>
-          <p>Un service fiscal crypto international signale une fuite des adresses e-mail de ses clients, via l'outil de mesure d'audience qu'il utilisait.<sup><a href="#src-3" aria-label="Source 3">3</a></sup></p>
-        </li>
-        <li class="fact">
-          <span class="date">Janvier 2026</span>
-          <p>Les autorités alertent : les données volées dans le secteur crypto servent à des arnaques ciblées, et des malfaiteurs vont jusqu'à menacer et agresser physiquement les victimes.<sup><a href="#src-1" aria-label="Source 1">1</a></sup></p>
+          <p>Le même type de service, nouvel incident : un accès à son compte chez son prestataire d'e-mails. Adresses e-mail et départements de résidence de ses clients.<sup><a href="#src-4" aria-label="Source 4">4</a></sup></p>
         </li>
         <li class="fact">
           <span class="date">Janv.–août 2026</span>
-          <p>Plus de 70 enlèvements et séquestrations liés aux cryptomonnaies en France, selon le parquet national anticriminalité organisée. 67 sur toute l'année 2025.<sup><a href="#src-4" aria-label="Source 4">4</a></sup></p>
+          <p>Plus de 70 enlèvements et séquestrations liés aux cryptomonnaies en France, selon le parquet national anticriminalité organisée. 67 sur toute l'année 2025.<sup><a href="#src-5" aria-label="Source 5">5</a></sup></p>
         </li>
       </ul>
       <footer class="sources" aria-label="Sources">
         <p class="sources-title">Sources</p>
         <ol>
-          <li id="src-1">Cybermalveillance.gouv.fr, alerte sur les violations de données dans le secteur des crypto-actifs, 22 janvier 2026, mise à jour le 8 juin 2026. <a href="https://www.cybermalveillance.gouv.fr/tous-nos-contenus/actualites/violation-de-donnees-secteur-crypto-actifs-202601" rel="noopener noreferrer" target="_blank">cybermalveillance.gouv.fr ↗</a></li>
-          <li id="src-2">Fuites Infos, 15 septembre 2026. <a href="https://fuitesinfos.fr/article/2026-09-15-waltio" rel="noopener noreferrer" target="_blank">fuitesinfos.fr ↗</a></li>
-          <li id="src-3">Crypto Briefing, décembre 2025. <a href="https://cryptobriefing.com/koinly-email-leak-mixpanel/" rel="noopener noreferrer" target="_blank">cryptobriefing.com ↗</a></li>
-          <li id="src-4">franceinfo, chiffres du parquet national anticriminalité organisée, 11 septembre 2026. <a href="https://www.franceinfo.fr/economie/bitcoin/cryptomonnaies-plus-de-70-enlevements-et-sequestrations-recenses-sur-les-huit-premiers-mois-de-2026-d-apres-le-parquet-national-anticriminalite-organisee_8188352.html" rel="noopener noreferrer" target="_blank">franceinfo.fr ↗</a></li>
+          <li id="src-1">Crypto Briefing, décembre 2025. <a href="https://cryptobriefing.com/koinly-email-leak-mixpanel/" rel="noopener noreferrer" target="_blank">cryptobriefing.com ↗</a></li>
+          <li id="src-2">Cybermalveillance.gouv.fr, alerte sur les violations de données dans le secteur des crypto-actifs, 22 janvier 2026, mise à jour le 8 juin 2026. <a href="https://www.cybermalveillance.gouv.fr/tous-nos-contenus/actualites/violation-de-donnees-secteur-crypto-actifs-202601" rel="noopener noreferrer" target="_blank">cybermalveillance.gouv.fr ↗</a></li>
+          <li id="src-3">Cryptoast, violation de données et tentative d'extorsion, janvier 2026. <a href="https://cryptoast.fr/waltio-frappe-violation-donnees-tentative-extorsion/" rel="noopener noreferrer" target="_blank">cryptoast.fr ↗</a></li>
+          <li id="src-4">Fuites Infos, 15 septembre 2026. <a href="https://fuitesinfos.fr/article/2026-09-15-waltio" rel="noopener noreferrer" target="_blank">fuitesinfos.fr ↗</a></li>
+          <li id="src-5">franceinfo, chiffres du parquet national anticriminalité organisée, 11 septembre 2026. <a href="https://www.franceinfo.fr/economie/bitcoin/cryptomonnaies-plus-de-70-enlevements-et-sequestrations-recenses-sur-les-huit-premiers-mois-de-2026-d-apres-le-parquet-national-anticriminalite-organisee_8188352.html" rel="noopener noreferrer" target="_blank">franceinfo.fr ↗</a></li>
         </ol>
       </footer>
     </div>
@@ -488,11 +507,11 @@
   <section id="comment">
     <div class="wrap">
       <p class="eyebrow">Comment ça marche</p>
-      <h2>Une application à installer sur votre Mac. Tout se passe dedans.</h2>
+      <h2>Une application à installer. Tout se passe sur votre ordinateur.</h2>
       <ol class="steps">
         <li>
           <h3>Installez l'application</h3>
-          <p>Téléchargez Papouilles et installez-le sur votre Mac, comme n'importe quelle application. Aucun compte à créer.</p>
+          <p>Téléchargez Papouilles et installez-le sur votre ordinateur, comme n'importe quelle application. Aucun compte à créer.</p>
         </li>
         <li>
           <h3>Ajoutez vos sources</h3>
@@ -500,7 +519,7 @@
         </li>
         <li>
           <h3>Vérifiez l'historique</h3>
-          <p>L'application reconstitue l'historique de votre foyer et signale ce qui manque : un transfert sans contrepartie, un prix absent. Vous corrigez, elle recalcule.</p>
+          <p>L'application reconstitue l'historique de votre foyer fiscal et signale ce qui manque : un transfert sans contrepartie, un prix absent. Vous corrigez, elle recalcule.</p>
         </li>
         <li>
           <h3>Générez votre rapport</h3>
@@ -513,13 +532,13 @@
   <section id="tarif">
     <div class="wrap">
       <p class="eyebrow">Tarif</p>
-      <h2>Un prix. Un rapport. 49&nbsp;€.</h2>
+      <h2>Un rapport fiscal, un prix unique.</h2>
       <div class="plans">
         <div class="plan">
           <p class="plan-price">0&nbsp;€</p>
           <h3>Suivez vos portefeuilles</h3>
           <ul>
-            <li>Tous les portefeuilles de votre foyer, réunis au même endroit</li>
+            <li>Tous les portefeuilles de votre foyer fiscal, réunis au même endroit</li>
             <li>L'historique complet de vos transactions</li>
             <li>Chaque opération classée : achat, vente, transfert entre vos portefeuilles, paiement, don reçu</li>
             <li>Les trous repérés : transfert sans contrepartie, prix manquant</li>
@@ -532,7 +551,7 @@
           <p>Les montants des formulaires 2086 et 2042-C, la liste des comptes à déclarer sur le 3916-bis, et le détail du calcul en PDF.</p>
         </div>
       </div>
-      <p class="plan-note">Pas d'abonnement. Pas de prix qui grimpe avec vos transactions. Pas de surprise. <strong>Et aucune fuite possible.</strong></p>
+      <p class="plan-note">Pas d'abonnement. Pas de prix qui grimpe avec vos transactions. Pas de surprise. <strong>Et vos données restent chez vous.</strong></p>
     </div>
   </section>
 
@@ -556,25 +575,34 @@
     <div class="wrap">
       <div>
         <p class="eyebrow">Sortie · 1er janvier 2027</p>
-        <h2>Aucune inscription. Restez informé.</h2>
-        <p>La première version sort le 1er janvier 2027, juste à temps pour générer votre rapport 2026. Ouverte à tous. Pas de liste d'attente, pas d'e-mail à laisser. Choisissez comment suivre la sortie.</p>
-        <p class="fine">Pourquoi pas d'e-mail ? Parce que les fichiers d'e-mails fuient. En septembre 2026, les e-mails et départements des clients d'un assistant fiscal crypto ont été exposés via son prestataire d'envoi d'e-mails (<a href="https://fuitesinfos.fr/article/2026-09-15-waltio" rel="noopener noreferrer">source</a>). En décembre 2025, ceux d'un service fiscal crypto international, via son outil de mesure d'audience (<a href="https://cryptobriefing.com/koinly-email-leak-mixpanel/" rel="noopener noreferrer">source</a>).</p>
+        <h2>Restez informé de la sortie.</h2>
+        <p>L'application sera disponible en janvier 2027, juste à temps pour générer votre rapport 2026. Ouverte à tous. Pas de liste d'attente, pas d'e-mail à laisser. Choisissez comment suivre la sortie.</p>
+        <p class="fine">Pourquoi pas d'e-mail ? Parce qu'un fichier d'e-mails de détenteurs de cryptos est une cible : en septembre 2026, les e-mails et départements des clients d'un assistant fiscal crypto ont été exposés via son prestataire d'envoi d'e-mails<sup><a href="#src-4" aria-label="Source 4">4</a></sup> ; en décembre 2025, ceux d'un service fiscal crypto international, via son outil de mesure d'audience<sup><a href="#src-1" aria-label="Source 1">1</a></sup>.</p>
       </div>
       <ol class="rdv">
         <li>
-          <h3>Ajoutez la date à votre calendrier</h3>
-          <p>Votre navigateur crée l'événement lui-même. Rien ne nous est envoyé.</p>
-          <button class="btn" id="add-to-calendar" type="button">Ajouter à mon calendrier</button>
+          <svg class="ico" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3.5" y="5" width="17" height="15" rx="2"/><path d="M3.5 10h17M8 3v4M16 3v4"/></svg>
+          <div>
+            <h3>Un rappel dans votre calendrier</h3>
+            <p>Votre navigateur crée l'événement. Rien ne nous est envoyé.</p>
+            <button class="btn" id="add-to-calendar" type="button">Ajouter à mon calendrier</button>
+          </div>
         </li>
         <li>
-          <h3>Suivez le fil RSS</h3>
-          <p>Les nouvelles arrivent dans votre lecteur de flux. Nous ignorons qui nous lit.</p>
-          <a class="btn ghost" href="feed.xml">Fil RSS</a>
+          <svg class="ico" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 5a14 14 0 0 1 14 14M5 11a8 8 0 0 1 8 8"/><circle cx="6" cy="18" r="1.2"/></svg>
+          <div>
+            <h3>Les nouvelles dans votre lecteur</h3>
+            <p>Un fil RSS : nous ignorons qui nous lit.</p>
+            <a class="btn" href="feed.xml">S'abonner au fil RSS</a>
+          </div>
         </li>
         <li>
-          <h3>Écrivez-nous sur SimpleX</h3>
-          <p>Une messagerie sans numéro de téléphone ni identifiant. Vous choisissez ce que vous nous dites.</p>
-          <a class="btn ghost" id="simplex" href="#info">Écrire sur SimpleX</a>
+          <svg class="ico" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 5.5A1.5 1.5 0 0 1 5.5 4h13A1.5 1.5 0 0 1 20 5.5v9a1.5 1.5 0 0 1-1.5 1.5H10l-5 4v-4h-.5A.5.5 0 0 1 4 15.5z"/></svg>
+          <div>
+            <h3>Une conversation avec nous</h3>
+            <p>SimpleX, une messagerie sans numéro de téléphone ni identifiant.</p>
+            <a class="btn" id="simplex" href="#info">Écrire sur SimpleX</a>
+          </div>
         </li>
       </ol>
     </div>
@@ -586,7 +614,7 @@
       <h2>Les questions qu'on nous pose.</h2>
       <details>
         <summary>Pourquoi pas d'inscription par e-mail ?</summary>
-        <p>Parce qu'un fichier d'e-mails de détenteurs de cryptos est une cible. En septembre 2026, un assistant fiscal crypto a vu les e-mails et les départements de ses clients exposés via son prestataire d'envoi d'e-mails (<a href="https://fuitesinfos.fr/article/2026-09-15-waltio" rel="noopener noreferrer">source</a>). Ajoutez la date à votre calendrier, suivez le fil RSS, ou écrivez-nous sur SimpleX : vous restez maître de ce que vous partagez.</p>
+        <p>Parce qu'un fichier d'e-mails de détenteurs de cryptos est une cible : les incidents de septembre 2026 et de décembre 2025 sont détaillés plus haut. Ajoutez la date à votre calendrier, suivez le fil RSS, ou écrivez-nous sur SimpleX : vous restez maître de ce que vous partagez.</p>
       </details>
       <details>
         <summary>Le calcul est-il conforme à la règle française ?</summary>
@@ -594,7 +622,7 @@
       </details>
       <details>
         <summary>Sur quels ordinateurs ?</summary>
-        <p>Sur Mac d'abord. Une déclaration, c'est du travail de bureau : importer des fichiers, vérifier de longues listes, corriger. D'autres ordinateurs suivront.</p>
+        <p>Le système pris en charge au lancement figure dans « La première version », plus haut. Une déclaration, c'est du travail de bureau : importer des fichiers, vérifier de longues listes, corriger. D'autres ordinateurs suivront.</p>
       </details>
       <details>
         <summary>L'application se connecte-t-elle à Internet ?</summary>
@@ -610,11 +638,11 @@
       </details>
       <details>
         <summary>Et si je perds mon ordinateur ?</summary>
-        <p>Vos données sont sur votre ordinateur, donc dans vos sauvegardes. Vous gardez la seule copie : c'est le principe.</p>
+        <p>Vos données sont sur votre ordinateur, donc dans vos sauvegardes. Les copies restent les vôtres : personne d'autre n'en détient.</p>
       </details>
       <details>
         <summary>Est-ce que ça sert à cacher mes cryptos au fisc ?</summary>
-        <p>Papouilles sert à déclarer juste. Depuis 2026, les plateformes d'échange transmettent déjà vos opérations à l'administration fiscale. Ce que Papouilles protège, c'est votre historique complet : il reste chez vous, au lieu d'être copié chez une entreprise de plus.</p>
+        <p>Non. Papouilles sert à déclarer juste : vos plus-values sont calculées ligne par ligne, et la déclaration se fait toujours sur impots.gouv.fr. Ce que Papouilles protège, c'est votre historique complet : il reste chez vous, au lieu d'être copié chez une entreprise de plus.</p>
       </details>
     </div>
   </section>
@@ -623,8 +651,10 @@
 <footer>
   <div class="wrap">
     <strong>papouilles</strong>
-    <span>Ce site ne vous demande rien : aucune inscription, aucun cookie, aucun traceur, aucun script venu d'un autre serveur.</span>
-    <span>Papouilles est un nom de travail. Mentions légales : à venir.</span>
+    <span>Ce site ne collecte rien : aucune inscription, aucun cookie, aucun traceur, aucun script tiers.</span>
+    <span>Le code de ce site est public : <a href="https://github.com/GuGuss/papouilles-website" rel="noopener noreferrer">github.com/GuGuss/papouilles-website</a>. Vérifiez-le.</span>
+    <span>Papouilles est un nom de travail.</span>
+    <span>Mentions légales. Éditeur et directeur de la publication : Augustin Delaporte. Contact : <a href="https://github.com/GuGuss/papouilles-website/issues" rel="noopener noreferrer">ouvrir une discussion sur le dépôt public</a>. Hébergeur : GitHub, Inc., 88 Colin P. Kelly Jr. Street, San Francisco, CA 94107, États-Unis.</span>
   </div>
 </footer>
 
