@@ -5,11 +5,14 @@ user's computer. "Papouilles" is a working name.
 
 ## Files
 
+Only `public/` is published.
+
 | File | Content |
 | --- | --- |
-| `index.html` | The page. Self-contained: styles and scripts inline. |
-| `feed.xml` | The Atom feed for release news. |
-| `logo.svg` | The working logo. |
+| `public/index.html` | The page. Self-contained: styles and scripts inline. |
+| `public/feed.xml` | The Atom feed for release news. |
+| `public/logo.svg` | The working logo. |
+| `public/_headers` | HTTP headers: security policy, no referrer, and `noindex` until the launch. |
 
 `drafts/` holds local design explorations. Git ignores it.
 
@@ -29,10 +32,20 @@ The brand and the market analysis live in the app repository: `docs/brand.md` an
 
 - A lawyer reviews the comparative claims and the legal notice.
 - Set `SIMPLEX_LINK` and check `RELEASE_DATE` in the script of `index.html`.
-- Choose the host and the domain.
+- Remove the `noindex` from `public/_headers` and from the `robots` meta tag in `public/index.html`.
+- Choose the domain.
 
 ## Preview
 
 ```bash
-python3 -m http.server 4321 --bind 127.0.0.1
+python3 -m http.server 4321 --bind 127.0.0.1 --directory public
 ```
+
+## Deployment
+
+Cloudflare Pages, free plan, connected to this repository:
+
+- Each push to `main` deploys the production site.
+- Each pull request gets its own preview URL, posted on the pull request.
+
+Settings: no framework, no build command, output directory `public`.
