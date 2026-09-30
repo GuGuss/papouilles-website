@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom" xml:lang="fr">
-  <title>Papouilles</title>
+  <title>Satoche</title>
   <subtitle>Déclarez vos cryptos. Gardez vos données.</subtitle>
   <id>urn:uuid:5d0f6c2e-8b1a-4f5e-9c43-2a7f1e0b6d91</id>
   <link rel="alternate" href="./"/>
   <updated>2026-09-30T12:00:00Z</updated>
-  <author><name>L'équipe Papouilles</name></author>
+  <author><name>L'équipe Satoche</name></author>
   <entry>
-    <title>Papouilles sort le 1er janvier 2027</title>
+    <title>Satoche sort le 1er janvier 2027</title>
     <id>urn:uuid:9b3e2f71-4c6d-4a8e-b0f5-7d1c3e9a2b64</id>
     <link rel="alternate" href="./#info"/>
     <updated>2026-09-30T12:00:00Z</updated>

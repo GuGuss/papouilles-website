@@ -1,7 +1,7 @@
-# papouilles-website
+# Satoche website
 
-The landing page of Papouilles, a macOS app that prepares the French crypto tax declaration on the
-user's computer. "Papouilles" is a working name.
+The landing page of Satoche, a macOS app that prepares the French crypto tax declaration on the
+user's computer. "Satoche" is a working name (trademark not cleared).
 
 ## Files
 
@@ -11,7 +11,7 @@ Only `public/` is published.
 | --- | --- |
 | `public/index.html` | The page. Self-contained: styles and scripts inline. |
 | `public/feed.xml` | The Atom feed for release news. |
-| `public/logo.svg` | The working logo. |
+| `public/logo.svg` | The Satoche mark (for dark backgrounds). |
 
 `drafts/` holds local design explorations. Git ignores it.
 
