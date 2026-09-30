@@ -43,10 +43,9 @@ python3 -m http.server 4321 --bind 127.0.0.1 --directory public
 
 ## Deployment
 
-Cloudflare Workers, free plan, connected to this repository. `wrangler.jsonc` publishes `public/`
-as static assets; `public/_headers` sets the HTTP headers.
+Cloudflare Pages, free plan, connected to this repository:
 
 - Each push to `main` deploys the production site.
 - Each pull request gets its own preview URL, posted on the pull request.
 
-Dashboard settings: path `/`, no build command, deploy command `npx wrangler deploy`.
+Settings: no framework, no build command, output directory `public`.

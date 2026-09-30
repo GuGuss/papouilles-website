@@ -1,8 +1,0 @@
-{
-  // Static site served by Cloudflare Workers. Only public/ is published.
-  "name": "papouilles-website",
-  "compatibility_date": "2026-09-30",
-  "assets": {
-    "directory": "./public"
-  }
-}
