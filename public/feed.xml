@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom" xml:lang="fr">
   <title>Satoche</title>
-  <subtitle>Déclarez vos cryptos. Gardez vos données.</subtitle>
+  <subtitle>Votre rapport fiscal crypto, sans rien partager.</subtitle>
   <id>urn:uuid:5d0f6c2e-8b1a-4f5e-9c43-2a7f1e0b6d91</id>
   <link rel="alternate" href="./"/>
   <updated>2026-09-30T12:00:00Z</updated>
